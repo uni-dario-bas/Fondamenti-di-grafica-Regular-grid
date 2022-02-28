@@ -1,0 +1,93 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+Regular Grid/x64/
+Regular Grid/.vs/Ray Tracing/v16/.suo
+Regular Grid/.vs/Ray Tracing/v16/Browse.VC.db
+Regular Grid/.vs/Ray Tracing/v16/ipch/AutoPCH/86b7ea1ebdfdfe98/MAIN.ipch
+Regular Grid/.vs/Regular Grid/v16/.suo
+Regular Grid/.vs/Regular Grid/v16/Browse.VC.db
+Regular Grid/.vs/Regular Grid/v16/Browse.VC.db-shm
+Regular Grid/.vs/Regular Grid/v16/Browse.VC.db-wal
+Regular Grid/.vs/Regular Grid/v16/Browse.VC.opendb
+Regular Grid/Instancing/x64/Debug/BVH.Build.CppClean.log
+Regular Grid/Instancing/x64/Debug/Instancing.log
+Regular Grid/Instancing/x64/Debug/vc141.idb
+Regular Grid/Instancing/x64/Debug/vc141.pdb
+Regular Grid/Instancing/x64/Debug/BVH.tlog/BVH.lastbuildstate
+Regular Grid/Instancing/x64/Debug/BVH.tlog/CL.command.1.tlog
+Regular Grid/Instancing/x64/Debug/BVH.tlog/CL.read.1.tlog
+Regular Grid/Instancing/x64/Debug/BVH.tlog/CL.write.1.tlog
+Regular Grid/Instancing/x64/Debug/BVH.tlog/link.command.1.tlog
+Regular Grid/Instancing/x64/Debug/BVH.tlog/link.read.1.tlog
+Regular Grid/Instancing/x64/Debug/BVH.tlog/link.write.1.tlog
+Regular Grid/Instancing/x64/Debug/Ray Tracing.tlog/CL.command.1.tlog
+Regular Grid/Instancing/x64/Debug/Ray Tracing.tlog/CL.read.1.tlog
+Regular Grid/Instancing/x64/Debug/Ray Tracing.tlog/CL.write.1.tlog
+Regular Grid/Instancing/x64/Debug/Ray Tracing.tlog/link.command.1.tlog
+Regular Grid/Instancing/x64/Debug/Ray Tracing.tlog/link.read.1.tlog
+Regular Grid/Instancing/x64/Debug/Ray Tracing.tlog/link.write.1.tlog
+Regular Grid/Instancing/x64/Debug/Ray Tracing.tlog/Ray Tracing.lastbuildstate
+Regular Grid/Instancing/x64/Release/Instancing.log
+Regular Grid/Instancing/x64/Release/Ray Tracing.Build.CppClean.log
+Regular Grid/Instancing/x64/Release/Ray Tracing.exe.recipe
+Regular Grid/Instancing/x64/Release/Ray Tracing.iobj
+Regular Grid/Instancing/x64/Release/Ray Tracing.ipdb
+Regular Grid/Instancing/x64/Release/Regular Grid.exe.recipe
+Regular Grid/Instancing/x64/Release/Regular Grid.iobj
+Regular Grid/Instancing/x64/Release/Regular Grid.ipdb
+Regular Grid/Instancing/x64/Release/vc141.pdb
+Regular Grid/Instancing/x64/Release/vc142.pdb
+Regular Grid/Instancing/x64/Release/BVH.tlog/BVH.lastbuildstate
+Regular Grid/Instancing/x64/Release/BVH.tlog/BVH.write.1u.tlog
+Regular Grid/Instancing/x64/Release/BVH.tlog/CL.command.1.tlog
+Regular Grid/Instancing/x64/Release/BVH.tlog/CL.read.1.tlog
+Regular Grid/Instancing/x64/Release/BVH.tlog/CL.write.1.tlog
+Regular Grid/Instancing/x64/Release/BVH.tlog/link.command.1.tlog
+Regular Grid/Instancing/x64/Release/BVH.tlog/link.read.1.tlog
+Regular Grid/Instancing/x64/Release/BVH.tlog/link.write.1.tlog
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/CL.command.1.tlog
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/CL.read.1.tlog
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/CL.write.1.tlog
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/link.command.1.tlog
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/link.read.1.tlog
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/link.write.1.tlog
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/Ray Tracing.lastbuildstate
+Regular Grid/Instancing/x64/Release/Ray Tracing.tlog/Ray Tracing.write.1u.tlog
+Regular Grid/Instancing/x64/Release/Regular Grid.tlog/CL.command.1.tlog
+Regular Grid/Instancing/x64/Release/Regular Grid.tlog/CL.read.1.tlog
+Regular Grid/Instancing/x64/Release/Regular Grid.tlog/CL.write.1.tlog
+Regular Grid/Instancing/x64/Release/Regular Grid.tlog/link.command.1.tlog
+Regular Grid/Instancing/x64/Release/Regular Grid.tlog/link.read.1.tlog
+Regular Grid/Instancing/x64/Release/Regular Grid.tlog/link.write.1.tlog
+Regular Grid/Instancing/x64/Release/Regular Grid.tlog/Regular Grid.lastbuildstate
+Regular Grid/.vs/Regular Grid/v16/ipch/AutoPCH/36fd764728c671aa/MAIN.ipch
