@@ -155,8 +155,8 @@ int main(int argc, char* argv[])
 	time_t start, end;
 	time(&start);
 
-	//world.parallel_render();
-	world.render();
+	world.parallel_render();
+	//world.render();
 
 	time(&end);
 	double dif = difftime(end, start);
