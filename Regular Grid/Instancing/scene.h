@@ -16,7 +16,7 @@
 #include "bvh.h"
 #include "instance.h"
 
-#define use_bvh		// commenta per non usare bvh
+//#define use_bvh		// commenta per non usare bvh
 
 extern const unsigned int MAX_RAY_DEPTH;
 

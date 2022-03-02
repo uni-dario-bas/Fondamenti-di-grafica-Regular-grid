@@ -62,8 +62,7 @@ bool instance::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 	if (object_ptr->hit(inv_ray, t_min, t_max, rec)) {
 		rec.p = current_matrix * inv_ray.point_at_parameter(rec.t);
 		rec.normal = normalize(transponse(inverse_matrix) * rec.normal);
-		rec.m = mat;
-							
+		//rec.m = mat;				
 		return (true);
 	}
 

@@ -19,6 +19,8 @@
 #include "color.h"
 #include "scene.h"
 #include "texture.h"
+#include "object_set.h"
+
 
 int const nx = 800;		//x
 int const ny = 400;		//y
@@ -115,14 +117,20 @@ int main(int argc, char* argv[])
 	vector3D up(0, 1, 0);
 	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
 
-	srand(5);
+	srand(4);
+
+	
+	object_set* object_set_model = new object_set();
 
 	object* sphere_model = new sphere();
 	instance* sphere_ptr = new instance(sphere_model, new material());
 	//sphere_ptr->getMaterial()->reflective = 0.8;
 	sphere_ptr->scale(1000.0, 1000.0, 1000.0);
 	sphere_ptr->translate(0, -1000, 0);
-	world.addObject(sphere_ptr);
+	//*****************************
+	//world.addObject(sphere_ptr);
+	object_set_model->addObject(sphere_ptr);
+	//*****************************
 	
 	for (int a = -11; a < 11; a++) {
 		for (int b = -11; b < 11; b++) {
@@ -133,24 +141,40 @@ int main(int argc, char* argv[])
 			//sphere_ptr->getMaterial()->reflective = 1.0;
 			sphere_ptr->scale(0.2f, 0.2f, 0.2f);
 			sphere_ptr->translate(center.x, center.y, center.z);
-			world.addObject(sphere_ptr);
+			//*****************************
+			//world.addObject(sphere_ptr);
+			object_set_model->addObject(sphere_ptr);
+			//*****************************
 		}
 	}
 	
 	sphere_ptr = new instance(sphere_model, new material());
 	//sphere_ptr->getMaterial()->reflective = 0.2;
 	sphere_ptr->translate(0, 1, 0);
-	world.addObject(sphere_ptr);
+	//*****************************
+	//world.addObject(sphere_ptr);
+	object_set_model->addObject(sphere_ptr);
+	//*****************************
 
 	sphere_ptr = new instance(sphere_model, new material());
 	//sphere_ptr->getMaterial()->reflective = 0.5;
 	sphere_ptr->translate(-4, 1, 0);
-	world.addObject(sphere_ptr);
+	//*****************************
+	//world.addObject(sphere_ptr);
+	object_set_model->addObject(sphere_ptr);
+	//*****************************
 
 	sphere_ptr = new instance(sphere_model, new material());
 	sphere_ptr->getMaterial()->reflective = 1.0;
 	sphere_ptr->translate(4, 1, 0);
-	world.addObject(sphere_ptr);
+	//*****************************
+	//world.addObject(sphere_ptr);
+	object_set_model->addObject(sphere_ptr);
+	//*****************************
+
+	instance* object_set_ptr = new instance(object_set_model, new material());
+	world.addObject(object_set_ptr);
+	//world.addObject(sphere_ptr);
 	
 	time_t start, end;
 	time(&start);
