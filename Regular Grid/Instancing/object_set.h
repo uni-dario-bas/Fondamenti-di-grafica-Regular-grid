@@ -25,9 +25,14 @@ public:
 		objects.push_back(new_object);
 	}
 
+    int countObjects() {
+        return objects.size();
+    }
+         
 
 protected:
 	vector<instance*> objects;
+    float EPSILON = 0.000001;
 };
 
 bool object_set::hit(const ray& ray, float t_min, float t_max, hit_record& rec) const {
@@ -59,7 +64,6 @@ bool object_set::hit_shadow(const ray& ray, float t_min, float t_max) const {
 bool object_set::bounding_box(aabb& box) const {
 	box = aabb(min_coordinates(), max_coordinates());
 	return true;
-
 }
 
 point3D object_set::min_coordinates() const{
@@ -78,10 +82,9 @@ point3D object_set::min_coordinates() const{
             p0.z = bbox_.aabb_min().z;
         }
     }
-    float kEpsilon = 0.000001;
-    p0.x -= kEpsilon;
-    p0.y -= kEpsilon;
-    p0.z -= kEpsilon;
+    p0.x -= EPSILON;
+    p0.y -= EPSILON;
+    p0.z -= EPSILON;
     return p0;
 }
 
@@ -101,9 +104,8 @@ point3D object_set::max_coordinates() const{
             p1.z = bbox_.aabb_max().z;
         }
     }
-    float kEpsilon = 0.000001;
-    p1.x += kEpsilon;
-    p1.y += kEpsilon;
-    p1.z += kEpsilon;
+    p1.x += EPSILON;
+    p1.y += EPSILON;
+    p1.z += EPSILON;
     return p1;
 }

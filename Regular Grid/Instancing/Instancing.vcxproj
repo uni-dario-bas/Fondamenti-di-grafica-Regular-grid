@@ -128,6 +128,7 @@
     <ClInclude Include="cylinder.h" />
     <ClInclude Include="geometry.h" />
     <ClInclude Include="bvh.h" />
+    <ClInclude Include="grid.h" />
     <ClInclude Include="object_set.h" />
     <ClInclude Include="point2D.h" />
     <ClInclude Include="instance.h" />

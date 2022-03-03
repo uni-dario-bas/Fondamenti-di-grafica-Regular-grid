@@ -107,5 +107,8 @@
     <ClInclude Include="object_set.h">
       <Filter>Header Files\Geometries</Filter>
     </ClInclude>
+    <ClInclude Include="grid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

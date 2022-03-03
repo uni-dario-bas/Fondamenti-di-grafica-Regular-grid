@@ -20,6 +20,7 @@
 #include "scene.h"
 #include "texture.h"
 #include "object_set.h"
+#include "grid.h"
 
 
 int const nx = 800;		//x
@@ -112,15 +113,15 @@ int main(int argc, char* argv[])
 	point_light *light = new point_light(light_position, lightgray, lightgray, lightgray);
 	world.addLight(light);
 
-	point3D lookfrom(13, 5, 3);
+	point3D lookfrom(0.0, 10.0, -25.0);
 	point3D lookat(0, 0, 0);
 	vector3D up(0, 1, 0);
 	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
 
-	srand(4);
+	srand(5);
 
 	
-	object_set* object_set_model = new object_set();
+	grid* grid_model = new grid();
 
 	object* sphere_model = new sphere();
 	instance* sphere_ptr = new instance(sphere_model, new material());
@@ -128,8 +129,9 @@ int main(int argc, char* argv[])
 	sphere_ptr->scale(1000.0, 1000.0, 1000.0);
 	sphere_ptr->translate(0, -1000, 0);
 	//*****************************
-	//world.addObject(sphere_ptr);
-	object_set_model->addObject(sphere_ptr);
+	// Aggiunta sfera al word e non alla grid poichè altrimenti avrebbe occupato tutta la griglia
+	world.addObject(sphere_ptr);
+	//grid_model->addObject(sphere_ptr);
 	//*****************************
 	
 	for (int a = -11; a < 11; a++) {
@@ -143,7 +145,7 @@ int main(int argc, char* argv[])
 			sphere_ptr->translate(center.x, center.y, center.z);
 			//*****************************
 			//world.addObject(sphere_ptr);
-			object_set_model->addObject(sphere_ptr);
+			//grid_model->addObject(sphere_ptr);
 			//*****************************
 		}
 	}
@@ -153,31 +155,41 @@ int main(int argc, char* argv[])
 	sphere_ptr->translate(0, 1, 0);
 	//*****************************
 	//world.addObject(sphere_ptr);
-	object_set_model->addObject(sphere_ptr);
+	//grid_model->addObject(sphere_ptr);
 	//*****************************
 
 	sphere_ptr = new instance(sphere_model, new material());
 	//sphere_ptr->getMaterial()->reflective = 0.5;
-	sphere_ptr->translate(-4, 1, 0);
+	sphere_ptr->translate(-2.1, 4, 4);
 	//*****************************
 	//world.addObject(sphere_ptr);
-	object_set_model->addObject(sphere_ptr);
+	grid_model->addObject(sphere_ptr);
 	//*****************************
 
 	sphere_ptr = new instance(sphere_model, new material());
-	sphere_ptr->getMaterial()->reflective = 1.0;
-	sphere_ptr->translate(4, 1, 0);
+	//sphere_ptr->getMaterial()->reflective = 1.0;
+	sphere_ptr->translate(2.1, 1, 0);
 	//*****************************
 	//world.addObject(sphere_ptr);
-	object_set_model->addObject(sphere_ptr);
+	grid_model->addObject(sphere_ptr);
 	//*****************************
 
-	instance* object_set_ptr = new instance(object_set_model, new material());
-	world.addObject(object_set_ptr);
+	instance* grid_ptr = new instance(grid_model, new material());
+	grid_ptr->blockInstanceMaterialUse();
+	world.addObject(grid_ptr);
 	//world.addObject(sphere_ptr);
 	
 	time_t start, end;
 	time(&start);
+
+	grid_model->computeCells();
+
+	cout << "***** GRID STATISTICS *****" << endl;
+	cout << "Xmin: " <<  grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
+	cout << "Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
+	cout << "Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
+	cout << "CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
+	cout << "***************************" << endl;
 
 	world.parallel_render();
 	//world.render();

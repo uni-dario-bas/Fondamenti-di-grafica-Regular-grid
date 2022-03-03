@@ -37,11 +37,17 @@ public:
 		return(mat);
 	}
 
+	void blockInstanceMaterialUse() {
+		useInstanceMaterial = false;
+	}
+
+
 private:
 	object				*object_ptr;		// object to be transformed
 	matrix4D			inverse_matrix;		// inverse transformation matrix
 	matrix4D			current_matrix; 	// current transformation matrix
-	material			*mat;				// material					
+	material			*mat;				// material		
+	bool useInstanceMaterial = true;
 };
 
 instance* instance::clone(void) const {
@@ -62,7 +68,10 @@ bool instance::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 	if (object_ptr->hit(inv_ray, t_min, t_max, rec)) {
 		rec.p = current_matrix * inv_ray.point_at_parameter(rec.t);
 		rec.normal = normalize(transponse(inverse_matrix) * rec.normal);
-		//rec.m = mat;				
+		if (useInstanceMaterial) {
+			rec.m = mat;
+		}
+				
 		return (true);
 	}
 
