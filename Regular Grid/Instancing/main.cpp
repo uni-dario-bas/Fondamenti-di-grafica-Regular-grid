@@ -160,7 +160,7 @@ int main(int argc, char* argv[])
 
 	sphere_ptr = new instance(sphere_model, new material());
 	//sphere_ptr->getMaterial()->reflective = 0.5;
-	sphere_ptr->translate(-2.1, 4, 4);
+	sphere_ptr->translate(-2.0, 1, 0);
 	//*****************************
 	//world.addObject(sphere_ptr);
 	grid_model->addObject(sphere_ptr);
@@ -168,7 +168,7 @@ int main(int argc, char* argv[])
 
 	sphere_ptr = new instance(sphere_model, new material());
 	//sphere_ptr->getMaterial()->reflective = 1.0;
-	sphere_ptr->translate(2.1, 1, 0);
+	sphere_ptr->translate(2.0, 1, 0);
 	//*****************************
 	//world.addObject(sphere_ptr);
 	grid_model->addObject(sphere_ptr);
@@ -182,6 +182,8 @@ int main(int argc, char* argv[])
 	time_t start, end;
 	time(&start);
 
+	// Per cambiare il multiplier
+	// grid_model->setMultiplier(3.0);
 	grid_model->computeCells();
 
 	cout << "***** GRID STATISTICS *****" << endl;

@@ -6,8 +6,8 @@ class grid : public object_set {
 public:
 	grid::grid() {}
 
-	virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
-	virtual bool hit_shadow(const ray& r, float t_min, float t_max) const;
+	//virtual bool hit(const ray& r, float tmin, float tmax, hit_record& rec) const;
+	//virtual bool hit_shadow(const ray& r, float t_min, float t_max) const;
 
 	void computeCells();
 
@@ -88,9 +88,9 @@ void grid::populateCells(int obj_index, float ixmin, float iymin, float izmin, f
 	}
 }
 
-bool grid::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
-
-}
-bool grid::hit_shadow(const ray& r, float t_min, float t_max) const {
-
-}
+//bool grid::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
+//	return true;
+//}
+//bool grid::hit_shadow(const ray& r, float t_min, float t_max) const {
+//	return true;
+//}
