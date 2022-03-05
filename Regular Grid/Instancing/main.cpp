@@ -31,6 +31,11 @@ const unsigned int MAX_RAY_DEPTH = 5;
 
 using namespace std;
 
+// TODO Controllare il calcolo di nx, ny, nz
+// TODO Fare un test a partire dall'interno della griglia
+// TODO Eliminare le inutili stampe di logging
+// TODO Cambiare hit-shadow della griglia
+
 int init() {
 	/* // Initialize SDL2. */
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -118,80 +123,73 @@ int main(int argc, char* argv[])
 	vector3D up(0, 1, 0);
 	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
 
-	srand(5);
+	srand(6);
 
 	
 	grid* grid_model = new grid();
-
 	object* sphere_model = new sphere();
 	instance* sphere_ptr = new instance(sphere_model, new material());
-	//sphere_ptr->getMaterial()->reflective = 0.8;
-	sphere_ptr->scale(1000.0, 1000.0, 1000.0);
-	sphere_ptr->translate(0, -1000, 0);
-	//*****************************
-	// Aggiunta sfera al word e non alla grid poichè altrimenti avrebbe occupato tutta la griglia
-	world.addObject(sphere_ptr);
-	//grid_model->addObject(sphere_ptr);
-	//*****************************
-	
-	for (int a = -11; a < 11; a++) {
-		for (int b = -11; b < 11; b++) {
-			float choose_mat = randZeroToOne();
-			point3D center(a + 0.9f*randZeroToOne(), 0.2f, b + 0.9f*randZeroToOne());
 
-			sphere_ptr = new instance(sphere_model, new material());
-			//sphere_ptr->getMaterial()->reflective = 1.0;
-			sphere_ptr->scale(0.2f, 0.2f, 0.2f);
-			sphere_ptr->translate(center.x, center.y, center.z);
-			//*****************************
-			//world.addObject(sphere_ptr);
-			//grid_model->addObject(sphere_ptr);
-			//*****************************
+
+	//TEST NUMERO CELLE
+	//sphere_ptr->scale(1000.0, 1000.0, 1000.0);
+	//sphere_ptr->translate(0, -1000, 0);
+	//// Aggiunta sfera al word e non alla grid poichè altrimenti avrebbe occupato tutta la griglia
+	//world.addObject(sphere_ptr);
+
+	//sphere_ptr = new instance(sphere_model, new material());
+	//sphere_ptr->translate(-2.0, 1, 0);
+	//grid_model->addObject(sphere_ptr);
+
+	//sphere_ptr = new instance(sphere_model, new material());
+	////sphere_ptr->getMaterial()->reflective = 1.0;
+	//sphere_ptr->translate(2.0, 1, 0);
+	//grid_model->addObject(sphere_ptr);
+
+
+	// TEST FINALE GRID
+	bool use_grid = true;
+
+	float num_spheres = 10000;
+	float sphere_volume = 4.0 / num_spheres;
+	float sphere_radius = pow(((3.0 / 4) * sphere_volume) / 3.14, 1.0/3);
+	float side = 3;
+
+	for (int k = 0; k < num_spheres; k++) {
+		sphere_ptr = new instance(sphere_model, new material());
+		sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
+		sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
+		if (use_grid) {
+			grid_model->addObject(sphere_ptr);
 		}
+		else {
+			world.addObject(sphere_ptr);
+		}
+		
 	}
-	
-	sphere_ptr = new instance(sphere_model, new material());
-	//sphere_ptr->getMaterial()->reflective = 0.2;
-	sphere_ptr->translate(0, 1, 0);
-	//*****************************
-	//world.addObject(sphere_ptr);
-	//grid_model->addObject(sphere_ptr);
-	//*****************************
 
-	sphere_ptr = new instance(sphere_model, new material());
-	//sphere_ptr->getMaterial()->reflective = 0.5;
-	sphere_ptr->translate(-2.0, 1, 0);
-	//*****************************
-	//world.addObject(sphere_ptr);
-	grid_model->addObject(sphere_ptr);
-	//*****************************
-
-	sphere_ptr = new instance(sphere_model, new material());
-	//sphere_ptr->getMaterial()->reflective = 1.0;
-	sphere_ptr->translate(2.0, 1, 0);
-	//*****************************
-	//world.addObject(sphere_ptr);
-	grid_model->addObject(sphere_ptr);
-	//*****************************
+	//GRID
 
 	instance* grid_ptr = new instance(grid_model, new material());
 	grid_ptr->blockInstanceMaterialUse();
-	world.addObject(grid_ptr);
-	//world.addObject(sphere_ptr);
+	if (use_grid) {
+		world.addObject(grid_ptr);
+
+		// Per cambiare il multiplier
+		grid_model->setMultiplier(2.0);
+		grid_model->computeCells();
+
+		// STATISTICHE CELLE
+		cout << "***** CELLS STATISTICS *****" << endl;
+		cout << "Xmin: " << grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
+		cout << "Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
+		cout << "Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
+		cout << "CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
+		cout << "****************************" << endl;
+	}
 	
 	time_t start, end;
 	time(&start);
-
-	// Per cambiare il multiplier
-	// grid_model->setMultiplier(3.0);
-	grid_model->computeCells();
-
-	cout << "***** GRID STATISTICS *****" << endl;
-	cout << "Xmin: " <<  grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
-	cout << "Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
-	cout << "Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
-	cout << "CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
-	cout << "***************************" << endl;
 
 	world.parallel_render();
 	//world.render();

@@ -46,3 +46,9 @@ inline float clamp(float num, float min, float max) {
 	}
 	return num;
 }
+
+inline void swapNumber(float& a, float& b) {
+	float tmp = a;
+	a = b;
+	b = tmp;
+}

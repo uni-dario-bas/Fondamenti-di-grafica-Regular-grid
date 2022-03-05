@@ -9,6 +9,19 @@ public:
 	point3D aabb_min() const { return pmin; }
 	point3D aabb_max() const { return pmax; }
 
+	bool contains(point3D p) const {
+		if (p.x < pmin.x || p.x > pmax.x) {
+			return false;
+		}
+		if (p.y < pmin.y || p.y > pmax.y) {
+			return false;
+		}
+		if (p.z < pmin.z || p.z > pmax.z) {
+			return false;
+		}
+		return true;
+	}
+
 	bool hit(const ray& r, float tmin, float tmax) const {
 		for (int a = 0; a < 3; a++) {
 			float t0 = ffmin((pmin[a] - r.origin()[a]) / r.direction()[a],
@@ -22,6 +35,8 @@ public:
 		}
 		return true;
 	}
+
+
 
 	point3D pmin;
 	point3D pmax;
