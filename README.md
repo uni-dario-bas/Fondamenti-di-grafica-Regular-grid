@@ -1,6 +1,8 @@
 # Regular Grid 🗂️
 ___
 
+<img style="margin-bottom: 20px" src="https://www.comincenter.it/wp-content/uploads/2014/09/LoGO-UNIVERSIT%C3%A0-nero.png" alt="Logo UNIBAS" />
+
 Fondamenti di Grafica Tridimensionale, a.a. 2021 - 2022
 
 _Davide Coviello - 62865_
