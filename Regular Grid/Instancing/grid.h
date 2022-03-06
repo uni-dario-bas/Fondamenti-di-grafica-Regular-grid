@@ -11,6 +11,7 @@ public:
 
 	void computeCells();
 
+	// Q: Potrebbe essere privato (o eliminato siccome è una singola istruzione)?
 	void addObjectInCell(instance* new_object, int index) {
 		cells[index]->addObject(new_object);	
 	}
@@ -21,6 +22,7 @@ public:
 
 	int nx, ny, nz;
 
+// Q: Potrebbe essere private?
 protected:
 	vector<object_set*> cells;
 	aabb grid_bb;
@@ -114,15 +116,18 @@ bool grid::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
 
 	tx_min = (x0 - ox) / dx;
 	tx_max = (x1 - ox) / dx;
-	if (tx_min > tx_max) swap(tx_min, tx_max);
+	if (tx_min > tx_max) 
+		swap(tx_min, tx_max);
 
 	ty_min = (y0 - oy) / dy;
 	ty_max = (y1 - oy) / dy;
-	if (ty_min > ty_max) swap(ty_min, ty_max);
+	if (ty_min > ty_max) 
+		swap(ty_min, ty_max);
 
 	tz_min = (z0 - oz) / dz;
 	tz_max = (z1 - oz) / dz;
-	if (tz_min > tz_max) swap(tz_min, tz_max);
+	if (tz_min > tz_max) 
+		swap(tz_min, tz_max);
 
 	double t0, t1;
 
@@ -136,8 +141,7 @@ bool grid::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
 		ix = clamp((ox - x0) * nx / (x1 - x0), 0, nx - 1);
 		iy = clamp((oy - y0) * ny / (y1 - y0), 0, ny - 1);
 		iz = clamp((oz - z0) * nz / (z1 - z0), 0, nz - 1);
-	}
-	else {
+	} else {
 		point3D p = r.o + t0 * r.d;
 		ix = clamp((p.x - x0) * nx / (x1 - x0), 0, nx - 1);
 		iy = clamp((p.y - y0) * ny / (y1 - y0), 0, ny - 1);
@@ -152,6 +156,7 @@ bool grid::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
 	int 	ix_step, iy_step, iz_step;
 	int 	ix_stop, iy_stop, iz_stop;
 
+	// Q: Eliminare il codice duplicato?
 	tx_next = tx_min + (ix + 1) * dtx;
 	ix_step = +1;
 	ix_stop = nx;
@@ -197,6 +202,7 @@ bool grid::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
 		cont++;
 		object_set* objects_in_cells = cells[ix + nx * iy + nx * ny * iz];
 
+		// Q: Refactor / metodo? Per ogni asse potrebbe essere utilizzata la programmazione non strutturata (if + continue)
 		if (tx_next < ty_next && tx_next < tz_next) {
 			if (objects_in_cells->hit(r, tmin, tmax, rec) && tmin < tx_next) {
 				return true;
@@ -243,6 +249,7 @@ bool grid::hit(const ray& r, float tmin, float tmax, hit_record& rec) const {
 
 bool grid::hit_shadow(const ray& r, float t_min, float t_max) const {
 	hit_record tmp;
+	// Q: Potremmo introdurre il metodo traverse, a cui passiamo un booleano (useHitShadow) in modo da utilizzare un unico metodo?
 	return hit(r, t_min, t_max, tmp);
 	//return false;
 }

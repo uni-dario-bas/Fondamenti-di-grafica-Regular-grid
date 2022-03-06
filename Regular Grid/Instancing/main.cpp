@@ -134,7 +134,7 @@ int main(int argc, char* argv[])
 	//TEST NUMERO CELLE
 	//sphere_ptr->scale(1000.0, 1000.0, 1000.0);
 	//sphere_ptr->translate(0, -1000, 0);
-	//// Aggiunta sfera al word e non alla grid poichè altrimenti avrebbe occupato tutta la griglia
+	//// Aggiunta sfera al word e non alla grid poichÃ¨ altrimenti avrebbe occupato tutta la griglia
 	//world.addObject(sphere_ptr);
 
 	//sphere_ptr = new instance(sphere_model, new material());
@@ -170,6 +170,7 @@ int main(int argc, char* argv[])
 
 	//GRID
 
+	// Q: Potremmo creare una classe generica scena, in modo da creare tante scene diverse dalle quali estrarre statistiche e comparare le performance con e senza griglia?
 	instance* grid_ptr = new instance(grid_model, new material());
 	grid_ptr->blockInstanceMaterialUse();
 	if (use_grid) {
