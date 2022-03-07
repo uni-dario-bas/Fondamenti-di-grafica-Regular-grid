@@ -9,12 +9,14 @@
 #include "aabb.h"
 #include "ray.h"
 #include "object.h"
-// #define TINYOBJLOADER_IMPLEMENTATION
+#define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
+#include "instance.h"
+#include "triangle.h"
 
 using namespace std;
 
-class mesh : public object {
+class read_only_mesh {
 public:
 
 	vector<point3D> 			vertices;				// mesh vertices 
@@ -30,24 +32,16 @@ public:
 
 	bool areNormals = false;
 
-	mesh(const char* filename, const char* basepath = NULL, bool triangulate = true) {
+	read_only_mesh(const char* filename, const char* basepath = NULL, bool triangulate = true) {
 		load_mesh(filename, basepath, triangulate);
 	};
 
 	bool load_mesh(const char* filename, const char* basepath, bool triangulate);
 
-	virtual bool hit(const ray& r, float tmin, float tmax, hit_record &rec) const;
-	virtual bool hit_shadow(const ray& r, float t_min, float t_max) const;
-
-	virtual bool bounding_box(aabb& box) const;
+	vector<instance*> create_triangles();
 };
 
-bool mesh::bounding_box(aabb& box) const {
-	box = aabb_mesh;
-	return true;
-}
-
-bool mesh::load_mesh(const char* filename, const char* basepath = NULL, bool triangulate = true)
+bool read_only_mesh::load_mesh(const char* filename, const char* basepath = NULL, bool triangulate = true)
 {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
@@ -133,53 +127,9 @@ bool mesh::load_mesh(const char* filename, const char* basepath = NULL, bool tri
 	return true;
 }
 
-
-bool triangle_intersection(const ray& r, float tmin, float tmax, hit_record &rec, const point3D &v0, const point3D &v1, const point3D &v2, float &u, float &v)
-{
-	const float EPSILON = 0.0000001f;
-	vector3D edge1, edge2, h, s, q;
-	float a, f;	// , u, v;
-	edge1 = v1 - v0;
-	edge2 = v2 - v0;
-	h = cross(r.d, edge2);
-	a = dot(edge1, h);
-	if (a > -EPSILON && a < EPSILON)
-		return false;
-	f = 1 / a;
-	s = r.o - v0;
-	u = f * (dot(s, h));
-	if (u < 0.0f || u > 1.0f)
-		return false;
-	q = cross(s, edge1);
-	v = f * dot(r.d, q);
-	if (v < 0.0f || u + v > 1.0f)
-		return false;
-	// At this stage we can compute t to find out where the intersection point is on the line.
-	float t = f * dot(edge2, q);
-	if (t > tmin && t < tmax) {
-		if (t > EPSILON) // ray intersection
-		{
-			rec.normal = normalize(cross(v1 - v0, v2 - v0));
-			rec.t = dot((v0 - r.o), rec.normal) / dot(r.direction(), rec.normal);
-			rec.p = r.point_at_parameter(rec.t);
-			return true;
-		}
-	}
-	// This means that there is a line intersection but not a ray intersection.
-	return false;
-}
-
-
-bool mesh::hit(const ray& ray, float t_min, float t_max, hit_record &rec) const
-{
-	bool hit_anything = false;
-	hit_record temp_rec;
-	float closest_so_far = t_max;
-	float u, v;
-
-	if (aabb_mesh.hit(ray, t_min, t_max) == false)
-		return false;
-
+vector<instance*> read_only_mesh::create_triangles() {
+	vector<instance*> triangles = vector<instance*>();
+	
 	for (int i = 0; i < num_faces; i++)
 	{
 		int i0 = vertex_faces[0][3 * i + 0];
@@ -190,59 +140,9 @@ bool mesh::hit(const ray& ray, float t_min, float t_max, hit_record &rec) const
 		point3D v1 = vertices[i1];
 		point3D v2 = vertices[i2];
 
-		if (triangle_intersection(ray, t_min, closest_so_far, temp_rec, v0, v1, v2, u, v)) {
-			hit_anything = true;
-			closest_so_far = temp_rec.t;
-			rec = temp_rec;
-			
-			vector3D bary(1.0f - u - v, u, v);
-
-			if (areNormals)
-			{
-				i0 = vertex_faces[1][3 * i + 0];
-				i1 = vertex_faces[1][3 * i + 1];
-				i2 = vertex_faces[1][3 * i + 2];
-				
-				rec.normal = normalize(normals[i0] * bary.x + normals[i1] * bary.y + normals[i2] * bary.z);
-			}
-
-			i0 = vertex_faces[2][3 * i + 0];
-			i1 = vertex_faces[2][3 * i + 1];
-			i2 = vertex_faces[2][3 * i + 2];
-			
-			point2D uv0 = textures[i0];
-			point2D uv1 = textures[i1];
-			point2D uv2 = textures[i2];
-			
-			point2D uv = uv0 * bary.x + uv1 * bary.y + uv2 * bary.z;
-			rec.u = uv.x;
-			rec.v = uv.y;
-		}
+		triangles.push_back(new instance(new triangle(v0, v1, v2), new material(lightgray, lightgray, lightgray, 1)));
 	}
-	return hit_anything;
+
+	return triangles;
 }
 
-bool mesh::hit_shadow(const ray& ray, float t_min, float t_max) const
-{
-	hit_record temp_rec;
-	float closest_so_far = t_max;
-	float u, v;
-
-	if (aabb_mesh.hit(ray, t_min, t_max) == false)
-		return false;
-
-	for (int i = 0; i < num_faces; i++)
-	{
-		int i0 = vertex_faces[0][3 * i + 0];
-		int i1 = vertex_faces[0][3 * i + 1];
-		int i2 = vertex_faces[0][3 * i + 2];
-
-		point3D v0 = vertices[i0];
-		point3D v1 = vertices[i1];
-		point3D v2 = vertices[i2];
-
-		if (triangle_intersection(ray, t_min, closest_so_far, temp_rec, v0, v1, v2, u, v))
-			return true;
-	}
-	return false;
-}

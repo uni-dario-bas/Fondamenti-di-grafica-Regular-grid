@@ -21,11 +21,12 @@
 #include "texture.h"
 #include "object_set.h"
 #include "grid.h"
+#include "read_only_mesh.h"
 
 
 int const nx = 800;		//x
 int const ny = 400;		//y
-int const ns = 1;		//number of samples
+int const ns = 8;		//number of samples
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
@@ -54,7 +55,7 @@ int init() {
 	//Initialize PNG,JPG,TIF loading
 	int flags = IMG_INIT_JPG;
 	int initted = IMG_Init(flags);
-	if ((initted&flags) != flags) {
+	if ((initted & flags) != flags) {
 		cout << "SDL_image could not initialize! SDL_image Error:" << IMG_GetError() << std::endl;
 		SDL_DestroyWindow(window);
 		SDL_Quit();
@@ -82,8 +83,10 @@ void close() {
 
 int main(int argc, char* argv[])
 {
+
 	if (init() == 1) {
 		cout << "App Error! " << std::endl;
+		system("pause");
 		return 1;
 	}
 
@@ -114,11 +117,13 @@ int main(int argc, char* argv[])
 	world.addObject(mesh_ptr);
 	*/
 	
-	point3D light_position(6.0f, 6.0f, 0.0f);
+	// point3D light_position(6.0f, 6.0f, 0.0f);
+	point3D light_position(0.0f, 0.0f, -10.0f);
 	point_light *light = new point_light(light_position, lightgray, lightgray, lightgray);
 	world.addLight(light);
 
-	point3D lookfrom(0.0, 10.0, -25.0);
+	// point3D lookfrom(0.0, 10.0, -25.0);
+	point3D lookfrom(0.0, 5.0, -8.0);
 	point3D lookat(0, 0, 0);
 	vector3D up(0, 1, 0);
 	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
@@ -150,25 +155,34 @@ int main(int argc, char* argv[])
 	// TEST FINALE GRID
 	bool use_grid = true;
 
-	float num_spheres = 10000;
-	float sphere_volume = 4.0 / num_spheres;
-	float sphere_radius = pow(((3.0 / 4) * sphere_volume) / 3.14, 1.0/3);
-	float side = 3;
+	// float num_spheres = 10000;
+	// float sphere_volume = 4.0 / num_spheres;
+	// float sphere_radius = pow(((3.0 / 4) * sphere_volume) / 3.14, 1.0/3);
+	// float side = 3;
 
-	for (int k = 0; k < num_spheres; k++) {
-		sphere_ptr = new instance(sphere_model, new material());
-		sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
-		sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
-		if (use_grid) {
-			grid_model->addObject(sphere_ptr);
-		}
-		else {
-			world.addObject(sphere_ptr);
-		}
+	// for (int k = 0; k < num_spheres; k++) {
+	// 	sphere_ptr = new instance(sphere_model, new material());
+	// 	sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
+	// 	sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
+	// 	if (use_grid) {
+	// 		grid_model->addObject(sphere_ptr);
+	// 	}
+	// 	else {
+	// 		world.addObject(sphere_ptr);
+	// 	}
 		
+	// }
+
+	read_only_mesh* bunny_mesh = new read_only_mesh("./bunny.obj", "./");
+	auto triangles = bunny_mesh->create_triangles();
+
+	cout << "* Triangles size: " << triangles.size() << endl;
+
+	for (auto t : triangles) {
+		grid_model->addObject(t);
 	}
 
-	//GRID
+	// //GRID
 
 	// Q: Potremmo creare una classe generica scena, in modo da creare tante scene diverse dalle quali estrarre statistiche e comparare le performance con e senza griglia?
 	instance* grid_ptr = new instance(grid_model, new material());

@@ -39,12 +39,13 @@ void grid::computeCells() {
 	float wx = p1.x - p0.x;
 	float wy = p1.y - p0.y;
 	float wz = p1.z - p0.z;
-	float s = pow(wx * wy * wz / n_objects, 1/3);
+	float s = pow(wx * wy * wz / n_objects, 1.0 / 3.0);
 	nx = (m * wx / s) + 1;
 	ny = (m * wy / s) + 1;
 	nz = (m * wz / s) + 1;
 
 	int n_cells = nx * ny * nz;
+	cout << "* Grid objects size: " << objects.size() << " Grid n_cells: " << n_cells << endl;
 
 	for (int j = 0; j < n_cells; j++) {
 		cells.push_back(new object_set());

@@ -27,6 +27,13 @@ public:
 		norm = normalize(cross(v1 - v0, v2 - v0));
 	};
 
+	triangle(point3D _v0, point3D _v1, point3D _v2, vector3D _norm) {
+		v0 = _v0;
+		v1 = _v1;
+		v2 = _v2;
+		norm = _norm;
+	};
+
 	virtual bool hit(const ray& r, float tmin, float tmax, hit_record &rec) const;
 	virtual bool hit_shadow(const ray& r, float t_min, float t_max) const;
 
