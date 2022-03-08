@@ -9,7 +9,7 @@
 #include "aabb.h"
 #include "ray.h"
 #include "object.h"
-// #define TINYOBJLOADER_IMPLEMENTATION
+ #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
 using namespace std;

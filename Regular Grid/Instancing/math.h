@@ -37,7 +37,7 @@ float max(const float a, const float b)
 inline float ffmin(float a, float b) { return a < b ? a : b; }
 inline float ffmax(float a, float b) { return a > b ? a : b; }
 
-inline float clamp(float num, float min, float max) {
+inline int clamp(int num, int min, int max) {
 	if (num < min) {
 		return min;
 	}

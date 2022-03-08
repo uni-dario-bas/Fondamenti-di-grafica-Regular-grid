@@ -53,16 +53,30 @@ void grid::computeCells() {
 
 	aabb obj_bb;
 
+	cout << "sONo prima del for" << endl;
+
 	for (int i = 0; i < n_objects; i++) {
+
+		if (i % 100000 == 0) {
+			cout << "i: " << i << endl;
+		}
 		//OCCHIO QUI ALLA BB
 		objects[i]->bounding_box(obj_bb);
 
-		int ixmin = clamp((obj_bb.aabb_min().x - p0.x) * nx / (p1.x - p0.x), 0, nx - 1);
-		int iymin = clamp((obj_bb.aabb_min().y - p0.y) * ny / (p1.y - p0.y), 0, ny - 1);
-		int izmin = clamp((obj_bb.aabb_min().z - p0.z) * nz / (p1.z - p0.z), 0, nz - 1);
-		int ixmax = clamp((obj_bb.aabb_max().x - p0.x) * nx / (p1.x - p0.x), 0, nx - 1);
-		int iymax = clamp((obj_bb.aabb_max().y - p0.y) * ny / (p1.y - p0.y), 0, ny - 1);
-		int izmax = clamp((obj_bb.aabb_max().z - p0.z) * nz / (p1.z - p0.z), 0, nz - 1);
+		float fnx = nx;
+		float fny = ny;
+		float fnz = nz;
+
+		int ixmin = clamp((obj_bb.aabb_min().x - p0.x) * fnx / (p1.x - p0.x), 0, fnx - 1);
+		int iymin = clamp((obj_bb.aabb_min().y - p0.y) * fny / (p1.y - p0.y), 0, fny - 1);
+		int izmin = clamp((obj_bb.aabb_min().z - p0.z) * fnz / (p1.z - p0.z), 0, fnz - 1);
+		int ixmax = clamp((obj_bb.aabb_max().x - p0.x) * fnx / (p1.x - p0.x), 0, fnx - 1);
+		int iymax = clamp((obj_bb.aabb_max().y - p0.y) * fny / (p1.y - p0.y), 0, fny - 1);
+		int izmax = clamp((obj_bb.aabb_max().z - p0.z) * fnz / (p1.z - p0.z), 0, fnz - 1);
+
+		//int tot_tmp = max((ixmax - ixmin), 1)  * max((iymax - iymin), 1) * max((izmax - izmin), 1);
+
+		//cout << "tot: " << tot_tmp << "x: " << (ixmax - ixmin) << " y: " << (iymax - iymin) << " z: " << (izmax - izmin) << endl;
 
 		populateCells(i, ixmin, iymin, izmin, ixmax, iymax, izmax);
 	}

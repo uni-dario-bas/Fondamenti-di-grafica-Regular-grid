@@ -21,12 +21,12 @@
 #include "texture.h"
 #include "object_set.h"
 #include "grid.h"
-#include "read_only_mesh.h"
+#include "tassellator.h"
 
 
-int const nx = 800;		//x
-int const ny = 400;		//y
-int const ns = 8;		//number of samples
+int const nx = 1280;		//x
+int const ny = 720;		//y
+int const ns = 16;		//number of samples
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 	world.addLight(light);
 
 	// point3D lookfrom(0.0, 10.0, -25.0);
-	point3D lookfrom(0.0, 5.0, -8.0);
+	point3D lookfrom(0.0, 5.0, -5.0);
 	point3D lookat(0, 0, 0);
 	vector3D up(0, 1, 0);
 	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
@@ -173,12 +173,17 @@ int main(int argc, char* argv[])
 		
 	// }
 
-	read_only_mesh* bunny_mesh = new read_only_mesh("./bunny.obj", "./");
-	auto triangles = bunny_mesh->create_triangles();
+	mesh* bunny_mesh = new mesh("./bunny.obj", "./");
+	instance* mesh_instance = new instance(bunny_mesh, new material());
+	//mesh_instance->translate(2.0f,-2.0f,0.0f);
+	
+	mesh_instance->rotate_z(90);
+
+	vector<instance*> triangles = create_triangles(bunny_mesh, mesh_instance->getCurrentMatrix(), mesh_instance->getInverseMatrix());
 
 	cout << "* Triangles size: " << triangles.size() << endl;
 
-	for (auto t : triangles) {
+	for (instance* t : triangles) {
 		grid_model->addObject(t);
 	}
 
@@ -192,6 +197,7 @@ int main(int argc, char* argv[])
 
 		// Per cambiare il multiplier
 		grid_model->setMultiplier(2.0);
+		//grid_model->setMultiplier(0.01);
 		grid_model->computeCells();
 
 		// STATISTICHE CELLE

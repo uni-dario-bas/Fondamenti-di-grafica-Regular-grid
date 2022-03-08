@@ -138,11 +138,11 @@
     <ClInclude Include="point3D.h" />
     <ClInclude Include="raster.h" />
     <ClInclude Include="ray.h" />
-    <ClInclude Include="read_only_mesh.h" />
     <ClInclude Include="record.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="sphere.h" />
+    <ClInclude Include="tassellator.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="tiny_obj_loader.h" />
     <ClInclude Include="triangle.h" />

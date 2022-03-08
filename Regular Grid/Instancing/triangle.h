@@ -46,7 +46,7 @@ protected:
 
 bool triangle::bounding_box(aabb& box) const
 {
-	box.pmax = point3D(FLT_MIN, FLT_MIN, FLT_MIN);
+	box.pmax = point3D(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 	box.pmin = point3D(FLT_MAX, FLT_MAX, FLT_MAX);
 
 	box.pmin.x = ffmin(v0.x, box.pmin.x);

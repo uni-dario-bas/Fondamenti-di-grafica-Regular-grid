@@ -10,6 +10,7 @@ class instance { //: public object {
 public:	
 	instance() = default;
 	instance(object* nobj_ptr, material* m);
+	instance(object* nobj_ptr, material* m, matrix4D inv, matrix4D curr);
 	instance* instance::clone(void) const;
 		
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
@@ -41,6 +42,16 @@ public:
 		useInstanceMaterial = false;
 	}
 
+	matrix4D& getCurrentMatrix() {
+		return current_matrix;
+	}
+
+	matrix4D& getInverseMatrix() {
+		return inverse_matrix;
+	}
+
+
+
 
 private:
 	object				*object_ptr;		// object to be transformed
@@ -57,6 +68,13 @@ instance* instance::clone(void) const {
 instance::instance(object* nobj_ptr, material* m) {
 	object_ptr = nobj_ptr;
 	mat = m;
+}
+
+instance::instance(object* nobj_ptr, material* m, matrix4D curr, matrix4D inv) {
+	object_ptr = nobj_ptr;
+	mat = m;
+	current_matrix = curr;
+	inverse_matrix = inv;
 }
 
 bool instance::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {

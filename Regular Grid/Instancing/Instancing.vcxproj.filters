@@ -107,7 +107,7 @@
     <ClInclude Include="grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="read_only_mesh.h">
+    <ClInclude Include="tassellator.h">
       <Filter>Header Files\Geometries</Filter>
     </ClInclude>
   </ItemGroup>
