@@ -110,6 +110,9 @@
     <ClInclude Include="tassellator.h">
       <Filter>Header Files\Geometries</Filter>
     </ClInclude>
+    <ClInclude Include="mesh_triangle.h">
+      <Filter>Header Files\Geometries</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

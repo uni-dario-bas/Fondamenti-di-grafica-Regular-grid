@@ -17,14 +17,15 @@ color phong_shading(point_light &light, hit_record &hr, camera &cam) {
 	color diffuse(0.0f, 0.0f, 0.0f);
 	color specular(0.0f, 0.0f, 0.0f);
 
-	ambient = hr.m->ka * light.ambient;
+	//ambient = hr.m->ka * light.ambient;
+	ambient = hr.m->texture->value(hr.u, hr.v, hr.p)* light.ambient;
 	
 	vector3D L = normalize(light.position - hr.p);
 	float LDotN = max(dot(L, hr.normal), 0.0f);
 		
 	if (LDotN > 0) {
-		diffuse = hr.m->kd * light.diffuse * LDotN;
-		//diffuse = hr.m->texture->value(hr.u, hr.v, hr.p) * light.diffuse * LDotN;
+		//diffuse = hr.m->kd * light.diffuse * LDotN;
+		diffuse = hr.m->texture->value(hr.u, hr.v, hr.p) * light.diffuse * LDotN;
 		
 		vector3D R = reflect(L, hr.normal);
 
@@ -33,8 +34,8 @@ color phong_shading(point_light &light, hit_record &hr, camera &cam) {
 		
 		specular = hr.m->ks * light.specular * VDotR;
 
-		return ambient + diffuse + specular;
-		//return hr.m->texture->value(hr.u, hr.v, hr.p);
+		//return ambient + diffuse + specular;
+		return hr.m->texture->value(hr.u, hr.v, hr.p);
 	}
 	else
 		return ambient;
@@ -43,7 +44,8 @@ color phong_shading(point_light &light, hit_record &hr, camera &cam) {
 color ambient_shading(point_light &light, hit_record &hr) {
 	color ambient(0.0f, 0.0f, 0.0f);
 	
-	ambient = hr.m->ka * light.ambient;
+	//ambient = hr.m->ka * light.ambient;
+	ambient = hr.m->texture->value(hr.u, hr.v, hr.p) * light.ambient;
 
 	return ambient;
 }

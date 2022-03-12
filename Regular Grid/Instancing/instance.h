@@ -214,7 +214,8 @@ void instance::rotate_y(const float theta) {
 	y_rotation_matrix.m[2][0] = -sin_theta;
 	y_rotation_matrix.m[2][2] = cos_theta;
 
-	current_matrix = current_matrix * y_rotation_matrix;
+	//current_matrix = current_matrix * y_rotation_matrix;
+	current_matrix = y_rotation_matrix * current_matrix;
 }
 
 void instance::rotate_z(const float theta) {

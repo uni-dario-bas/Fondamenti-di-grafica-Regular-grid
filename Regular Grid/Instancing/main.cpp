@@ -24,9 +24,9 @@
 #include "tassellator.h"
 
 
-int const nx = 1280;		//x
-int const ny = 720;		//y
-int const ns = 16;		//number of samples
+int const nx = 800;		//x
+int const ny = 400;		//y
+int const ns = 8;		//number of samples
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 	world.addLight(light);
 
 	// point3D lookfrom(0.0, 10.0, -25.0);
-	point3D lookfrom(0.0, 5.0, -5.0);
+	point3D lookfrom(0.0, 5.0, -10.0);
 	point3D lookat(0, 0, 0);
 	vector3D up(0, 1, 0);
 	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
@@ -173,13 +173,20 @@ int main(int argc, char* argv[])
 		
 	// }
 
-	mesh* bunny_mesh = new mesh("./bunny.obj", "./");
-	instance* mesh_instance = new instance(bunny_mesh, new material());
+	//mesh* bunny_mesh = new mesh("../models/bunny.obj", "./");
+	mesh* cat_mesh = new mesh("../models/cat.obj", "./");
+	texture* cat_texure = new image_texture("../models/texturecat.jpg");
+	instance* mesh_instance = new instance(cat_mesh, new material());
 	//mesh_instance->translate(2.0f,-2.0f,0.0f);
 	
+	mesh_instance->rotate_y(90);
 	mesh_instance->rotate_z(90);
+	mesh_instance->rotate_y(45);
+	mesh_instance->scale(0.05, 0.05, 0.05);
+	mesh_instance->translate(0, -1, 0);
+	
 
-	vector<instance*> triangles = create_triangles(bunny_mesh, mesh_instance->getCurrentMatrix(), mesh_instance->getInverseMatrix());
+	vector<instance*> triangles = create_triangles(cat_mesh, mesh_instance->getCurrentMatrix(), mesh_instance->getInverseMatrix(), cat_texure);
 
 	cout << "* Triangles size: " << triangles.size() << endl;
 

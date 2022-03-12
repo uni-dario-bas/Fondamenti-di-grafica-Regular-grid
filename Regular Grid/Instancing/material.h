@@ -25,6 +25,7 @@ public:
 		ks = color(randZeroToOne(), randZeroToOne(), randZeroToOne());
 		
 		alpha = 20 + randZeroToOne() * 200;
+		texture = new constant_texture(color(randZeroToOne(), randZeroToOne(), randZeroToOne()));
 	}
 	
 	texture* texture;
