@@ -42,6 +42,10 @@ public:
 		useInstanceMaterial = false;
 	}
 
+	void alwaysComputeBB() {
+		shouldComputeBB = true;
+	}
+
 	matrix4D& getCurrentMatrix() {
 		return current_matrix;
 	}
@@ -59,6 +63,7 @@ private:
 	matrix4D			current_matrix; 	// current transformation matrix
 	material			*mat;				// material		
 	bool useInstanceMaterial = true;
+	bool shouldComputeBB = false;
 };
 
 instance* instance::clone(void) const {
@@ -111,9 +116,39 @@ bool instance::hit_shadow(const ray& r, float t_min, float t_max) const {
 
 bool instance::bounding_box(aabb& box) const {
 	object_ptr->bounding_box(box);
-	box.pmin = current_matrix * box.pmin;
-	box.pmax = current_matrix * box.pmax;
-	return true;
+	if (!shouldComputeBB) {
+		box.pmin = current_matrix * box.pmin;
+		box.pmax = current_matrix * box.pmax;
+		return true;
+	}
+	point3D v[8];
+
+	v[0].x = box.aabb_min().x; v[0].y = box.aabb_min().y; v[0].z = box.aabb_min().z;
+	v[1].x = box.aabb_max().x; v[1].y = box.aabb_min().y; v[1].z = box.aabb_min().z;
+	v[2].x = box.aabb_max().x; v[2].y = box.aabb_max().y; v[2].z = box.aabb_min().z;
+	v[3].x = box.aabb_min().x; v[3].y = box.aabb_max().y; v[3].z = box.aabb_min().z;
+
+	v[4].x = box.aabb_min().x; v[4].y = box.aabb_min().y; v[4].z = box.aabb_max().z;
+	v[5].x = box.aabb_max().x; v[5].y = box.aabb_min().y; v[5].z = box.aabb_max().z;
+	v[6].x = box.aabb_max().x; v[6].y = box.aabb_max().y; v[6].z = box.aabb_max().z;
+	v[7].x = box.aabb_min().x; v[7].y = box.aabb_max().y; v[7].z = box.aabb_max().z;
+
+
+	v[0] = current_matrix * v[0];
+	v[1] = current_matrix * v[1];
+	v[2] = current_matrix * v[2];
+	v[3] = current_matrix * v[3];
+	v[4] = current_matrix * v[4];
+	v[5] = current_matrix * v[5];
+	v[6] = current_matrix * v[6];
+	v[7] = current_matrix * v[7];
+
+	std::vector<point3D> points;
+	std::copy(std::begin(v), std::end(v), std::back_inserter(points));
+
+	box.pmax = findMaxInPoints(points);
+	box.pmin = findMinInPoints(points);
+
 }
 
 

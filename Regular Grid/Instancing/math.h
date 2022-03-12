@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "color.h"
 #include "vector3D.h"
+#include <vector>
 
 const float Deg2Rad = 3.1415926f / 180.0f;
 
@@ -51,4 +52,43 @@ inline void swapNumber(float& a, float& b) {
 	float tmp = a;
 	a = b;
 	b = tmp;
+}
+
+ point3D findMaxInPoints(std::vector<point3D> points) {
+	float x1 = -FLT_MAX;
+	float y1 = -FLT_MAX;
+	float z1 = -FLT_MAX;
+
+	for (point3D p : points) {
+		if (p.x > x1)
+			x1 = p.x;
+	}
+	for (point3D p : points) {
+		if (p.y > y1)
+			y1 = p.y;
+	}
+	for (point3D p : points) {
+		if (p.z > z1)
+			z1 = p.z;
+	}
+	return point3D(x1, y1, z1);
+}
+
+ point3D findMinInPoints(std::vector<point3D>& points) {
+	float x1 = FLT_MAX;
+	float y1 = FLT_MAX;
+	float z1 = FLT_MAX;
+	for (point3D p : points) {
+		if (p.x < x1)
+			x1 = p.x;
+	}
+	for (point3D p : points) {
+		if (p.y < y1)
+			y1 = p.y;
+	}
+	for (point3D p : points) {
+		if (p.z < z1)
+			z1 = p.z;
+	}
+	return point3D(x1, y1, z1);
 }

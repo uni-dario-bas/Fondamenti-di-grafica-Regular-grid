@@ -32,10 +32,11 @@ const unsigned int MAX_RAY_DEPTH = 5;
 
 using namespace std;
 
-// TODO Controllare il calcolo di nx, ny, nz
-// TODO Fare un test a partire dall'interno della griglia
-// TODO Eliminare le inutili stampe di logging
-// TODO Cambiare hit-shadow della griglia
+// Q: Fare un test a partire dall'interno della griglia
+// Q: Eliminare le inutili stampe di logging
+// Q: Cambiare hit-shadow della griglia
+// Q: Gestire il caso in cui non ci siano oggetti nella griglia
+// Q: Nei benchmark considerare diversi valori di m 
 
 int init() {
 	/* // Initialize SDL2. */
@@ -122,8 +123,9 @@ int main(int argc, char* argv[])
 	point_light *light = new point_light(light_position, lightgray, lightgray, lightgray);
 	world.addLight(light);
 
-	// point3D lookfrom(0.0, 10.0, -25.0);
-	point3D lookfrom(0.0, 5.0, -10.0);
+	//point3D lookfrom(0.0, 2.0, -1.0);
+	point3D lookfrom(0.0, 0.0, -10.0);
+	//point3D lookfrom(0.0, 5.0, -10.0);
 	point3D lookat(0, 0, 0);
 	vector3D up(0, 1, 0);
 	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
@@ -152,47 +154,57 @@ int main(int argc, char* argv[])
 	//grid_model->addObject(sphere_ptr);
 
 
-	// TEST FINALE GRID
+	// ***********************TEST FINALE GRID SFERE ***********************
 	bool use_grid = true;
 
-	// float num_spheres = 10000;
-	// float sphere_volume = 4.0 / num_spheres;
-	// float sphere_radius = pow(((3.0 / 4) * sphere_volume) / 3.14, 1.0/3);
-	// float side = 3;
+	 float num_spheres = 40;
+	 float sphere_volume = 1.0 / num_spheres;
+	 float sphere_radius = pow(((3.0 / 4) * sphere_volume) / 3.14, 1.0/3);
+	 float side = 3;
 
-	// for (int k = 0; k < num_spheres; k++) {
-	// 	sphere_ptr = new instance(sphere_model, new material());
-	// 	sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
-	// 	sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
-	// 	if (use_grid) {
-	// 		grid_model->addObject(sphere_ptr);
-	// 	}
-	// 	else {
-	// 		world.addObject(sphere_ptr);
-	// 	}
+	 for (int k = 0; k < num_spheres; k++) {
+	 	sphere_ptr = new instance(sphere_model, new material());
+
+		sphere_ptr->rotate_x(45);
 		
-	// }
+	 	sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
+	 	sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
 
-	//mesh* bunny_mesh = new mesh("../models/bunny.obj", "./");
-	mesh* cat_mesh = new mesh("../models/cat.obj", "./");
-	texture* cat_texure = new image_texture("../models/texturecat.jpg");
-	instance* mesh_instance = new instance(cat_mesh, new material());
-	//mesh_instance->translate(2.0f,-2.0f,0.0f);
-	
-	mesh_instance->rotate_y(90);
-	mesh_instance->rotate_z(90);
-	mesh_instance->rotate_y(45);
-	mesh_instance->scale(0.05, 0.05, 0.05);
-	mesh_instance->translate(0, -1, 0);
-	
+		sphere_ptr->scale(0.4, 1.2, 0.4);
+		sphere_ptr->alwaysComputeBB();
+		sphere_ptr->rotate_z(45);
+	 	if (use_grid) {
+	 		grid_model->addObject(sphere_ptr);
+	 	}
+	 	else {
+	 		world.addObject(sphere_ptr);
+	 	}
+		
+	 }
 
-	vector<instance*> triangles = create_triangles(cat_mesh, mesh_instance->getCurrentMatrix(), mesh_instance->getInverseMatrix(), cat_texure);
+	 //*********************************************************************
 
-	cout << "* Triangles size: " << triangles.size() << endl;
+	// *********************CASO MESH **********************************
+	//mesh* cat_mesh = new mesh("../models/cat.obj", "./");
+	//texture* cat_texure = new image_texture("../models/texturecat.jpg");
+	//instance* mesh_instance = new instance(cat_mesh, new material());
+	//
+	//mesh_instance->rotate_y(90);
+	//mesh_instance->rotate_z(90);
+	//mesh_instance->rotate_y(45);
+	//mesh_instance->scale(0.05, 0.05, 0.05);
+	//mesh_instance->translate(0, -1, 0);
+	//
 
-	for (instance* t : triangles) {
-		grid_model->addObject(t);
-	}
+	//vector<instance*> triangles = create_triangles(cat_mesh, mesh_instance->getCurrentMatrix(), mesh_instance->getInverseMatrix(), cat_texure);
+
+	//cout << "* Triangles size: " << triangles.size() << endl;
+
+	//for (instance* t : triangles) {
+	//	grid_model->addObject(t);
+	//}
+
+	// **********************************************************
 
 	// //GRID
 
