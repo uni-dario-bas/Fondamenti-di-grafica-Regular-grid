@@ -22,6 +22,7 @@
 #include "object_set.h"
 #include "grid.h"
 #include "tassellator.h"
+#include "scene_provider.h"
 
 
 int const nx = 800;		//x
@@ -90,53 +91,7 @@ int main(int argc, char* argv[])
 		system("pause");
 		return 1;
 	}
-
-	scene world;
-
-	/*
-	// Texture Mapping preliminare
-	point3D light_position(0.0f, 10.0f, 0.0f);
-	point_light *light = new point_light(light_position, black, lightgray, black);
-	world.addLight(light);
-
-	point3D lookfrom(0, 2, 10);
-	point3D lookat(0, 0, -1);
-	vector3D up(0, 1, 0);
-	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
-
-	object* model3d = new mesh("../models/cat.obj", "../models/");
-	checker_texture* checker_tex = new checker_texture(new constant_texture(color(0.2f, 0.3f, 0.1f)), new constant_texture(color(0.9f, 0.9f, 0.9f)));
-    //image_texture("texturecat.jpg");
-	material* m = new material();
-	m->texture = checker_tex;
-	instance* mesh_ptr = new instance(model3d, m);
-	
-	mesh_ptr->scale(1.0, 1.0, 1.0);
-	mesh_ptr->rotate_y(90.0f);
-	mesh_ptr->rotate_z(90.0f);
-	mesh_ptr->translate(0.0f, -40.0f, -120.0f);
-	world.addObject(mesh_ptr);
-	*/
-	
-	// point3D light_position(6.0f, 6.0f, 0.0f);
-	point3D light_position(0.0f, 0.0f, -10.0f);
-	point_light *light = new point_light(light_position, lightgray, lightgray, lightgray);
-	world.addLight(light);
-
-	//point3D lookfrom(0.0, 2.0, -1.0);
-	point3D lookfrom(0.0, 0.0, -10.0);
-	//point3D lookfrom(0.0, 5.0, -10.0);
-	point3D lookat(0, 0, 0);
-	vector3D up(0, 1, 0);
-	world.setCamera(lookfrom, lookat, up, 20, nx, ny, ns);
-
 	srand(6);
-
-	
-	grid* grid_model = new grid();
-	object* sphere_model = new sphere();
-	instance* sphere_ptr = new instance(sphere_model, new material());
-
 
 	//TEST NUMERO CELLE
 	//sphere_ptr->scale(1000.0, 1000.0, 1000.0);
@@ -153,73 +108,24 @@ int main(int argc, char* argv[])
 	//sphere_ptr->translate(2.0, 1, 0);
 	//grid_model->addObject(sphere_ptr);
 
-
-	// ***********************TEST FINALE GRID SFERE ***********************
 	bool use_grid = true;
-
-	 float num_spheres = 40;
-	 float sphere_volume = 1.0 / num_spheres;
-	 float sphere_radius = pow(((3.0 / 4) * sphere_volume) / 3.14, 1.0/3);
-	 float side = 3;
-
-	 for (int k = 0; k < num_spheres; k++) {
-	 	sphere_ptr = new instance(sphere_model, new material());
-
-		sphere_ptr->rotate_x(45);
-		
-	 	sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
-	 	sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
-
-		sphere_ptr->scale(0.4, 1.2, 0.4);
-		sphere_ptr->alwaysComputeBB();
-		sphere_ptr->rotate_z(45);
-	 	if (use_grid) {
-	 		grid_model->addObject(sphere_ptr);
-	 	}
-	 	else {
-	 		world.addObject(sphere_ptr);
-	 	}
-		
-	 }
-
-	 //*********************************************************************
+	grid* grid_model = new grid();
+	scene_provider sp(ns, use_grid);
+	// *********************** TEST FINALE GRID SFERE ***********************
+	// scene world = sp.get_sphere_scene(grid_model, 100, 3);
+	//*********************************************************************
 
 	// *********************CASO MESH **********************************
-	//mesh* cat_mesh = new mesh("../models/cat.obj", "./");
-	//texture* cat_texure = new image_texture("../models/texturecat.jpg");
-	//instance* mesh_instance = new instance(cat_mesh, new material());
-	//
-	//mesh_instance->rotate_y(90);
-	//mesh_instance->rotate_z(90);
-	//mesh_instance->rotate_y(45);
-	//mesh_instance->scale(0.05, 0.05, 0.05);
-	//mesh_instance->translate(0, -1, 0);
-	//
-
-	//vector<instance*> triangles = create_triangles(cat_mesh, mesh_instance->getCurrentMatrix(), mesh_instance->getInverseMatrix(), cat_texure);
-
-	//cout << "* Triangles size: " << triangles.size() << endl;
-
-	//for (instance* t : triangles) {
-	//	grid_model->addObject(t);
-	//}
-
+	scene world = sp.get_mesh_scene(grid_model, "../models/cat.obj", "../models/texturecat.jpg");
 	// **********************************************************
 
-	// //GRID
-
-	// Q: Potremmo creare una classe generica scena, in modo da creare tante scene diverse dalle quali estrarre statistiche e comparare le performance con e senza griglia?
 	instance* grid_ptr = new instance(grid_model, new material());
 	grid_ptr->blockInstanceMaterialUse();
 	if (use_grid) {
 		world.addObject(grid_ptr);
-
-		// Per cambiare il multiplier
 		grid_model->setMultiplier(2.0);
-		//grid_model->setMultiplier(0.01);
 		grid_model->computeCells();
 
-		// STATISTICHE CELLE
 		cout << "***** CELLS STATISTICS *****" << endl;
 		cout << "Xmin: " << grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
 		cout << "Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
@@ -232,7 +138,6 @@ int main(int argc, char* argv[])
 	time(&start);
 
 	world.parallel_render();
-	//world.render();
 
 	time(&end);
 	double dif = difftime(end, start);

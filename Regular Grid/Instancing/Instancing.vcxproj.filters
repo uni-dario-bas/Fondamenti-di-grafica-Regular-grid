@@ -113,6 +113,9 @@
     <ClInclude Include="mesh_triangle.h">
       <Filter>Header Files\Geometries</Filter>
     </ClInclude>
+    <ClInclude Include="scene_provider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
