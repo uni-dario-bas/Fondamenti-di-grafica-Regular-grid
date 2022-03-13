@@ -8,14 +8,9 @@
 
 vector<instance*> create_triangles(mesh* m, matrix4D current_matrix, matrix4D inverse_matrix, texture* tex) {
 	vector<instance*> triangles = vector<instance*>();
-	cout << "entrato nel create" << endl;
 	material* triangle_mat = new material();
 	triangle_mat->texture = tex;
 	for (int i = 0; i < m->num_faces; i++){
-
-		if (i % 10000 == 0) {
-			cout << "i: " << i << endl;
-		}
 
 		int i0 = m->vertex_faces[0][3 * i + 0];
 		int i1 = m->vertex_faces[0][3 * i + 1];

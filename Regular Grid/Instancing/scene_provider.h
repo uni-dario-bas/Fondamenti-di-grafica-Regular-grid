@@ -8,9 +8,11 @@ using namespace std;
 class scene_provider {
 public:
 
-	scene_provider(int ns, bool grid) {
+	scene_provider(int ns, bool grid, int nx_scene, int ny_scene) {
 		camera_ns = ns;
 		use_grid = grid;
+		nx = nx_scene;
+		ny = ny_scene;
 	}
 
 	scene get_mesh_scene(grid* grid_model, char* mesh_path, char* texture_path) {
@@ -19,7 +21,9 @@ public:
 		add_camera(world);
 		mesh* mesh_ptr = new mesh(mesh_path, "./");
 		texture* texture_ptr = new image_texture(texture_path);
-		instance* mesh_instance = new instance(mesh_ptr, new material());
+		material* mesh_material = new material();
+		mesh_material->texture = texture_ptr;
+		instance* mesh_instance = new instance(mesh_ptr, mesh_material);
 		mesh_instance->rotate_y(90);
 		mesh_instance->rotate_z(90);
 		mesh_instance->rotate_y(45);
@@ -59,9 +63,35 @@ public:
 		return world;
 	}
 
+	scene get_test(grid* grid_model) {
+		scene world;
+
+		point3D light_position(0.0f, 7.0f, 0.0f);
+		point_light* light = new point_light(light_position, lightgray, lightgray, lightgray);
+		world.addLight(light);
+
+		point3D lookfrom(0.0, 6.0, -5.0);
+		point3D lookat(0, 0, 0);
+		vector3D up(0, 1, 0);
+		world.setCamera(lookfrom, lookat, up, 20, nx, ny, camera_ns);
+
+		//object* sphere_model = new sphere();
+		//instance* sphere_ptr = new instance(sphere_model, new material());
+		//sphere_ptr->translate(0, 2, 0);
+		//use_grid ? grid_model->addObject(sphere_ptr) : world.addObject(sphere_ptr);
+		//sphere_ptr = new instance(sphere_model, new material());
+		//sphere_ptr->scale(1000.0, 1000.0, 1000.0);
+		//sphere_ptr->translate(0, -1000, 0);
+		//world.addObject(sphere_ptr);
+		return world;
+	}
+
 private:
 	int camera_ns;
-	int use_grid;
+	bool use_grid;
+	int nx;
+	int ny;
+
 	void add_light(scene& world) {
 		point3D light_position(0.0f, 0.0f, -10.0f);
 		point_light* light = new point_light(light_position, lightgray, lightgray, lightgray);

@@ -27,16 +27,14 @@
 
 int const nx = 800;		//x
 int const ny = 400;		//y
-int const ns = 8;		//number of samples
+int const ns = 1;		//number of samples
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
 using namespace std;
 
-// Q: Fare un test a partire dall'interno della griglia
-// Q: Eliminare le inutili stampe di logging
-// Q: Cambiare hit-shadow della griglia
-// Q: Gestire il caso in cui non ci siano oggetti nella griglia
+// Q: Mostrare una scena a partire dall'interno della griglia
+// Q: Organizzare stampe di logging
 // Q: Nei benchmark considerare diversi valori di m 
 
 int init() {
@@ -108,20 +106,24 @@ int main(int argc, char* argv[])
 	//sphere_ptr->translate(2.0, 1, 0);
 	//grid_model->addObject(sphere_ptr);
 
-	bool use_grid = true;
+	bool use_grid = false;
 	grid* grid_model = new grid();
-	scene_provider sp(ns, use_grid);
+	scene_provider sp(ns, use_grid, nx, ny);
 	// *********************** TEST FINALE GRID SFERE ***********************
-	// scene world = sp.get_sphere_scene(grid_model, 100, 3);
+	 //scene world = sp.get_sphere_scene(grid_model, 100, 3);
 	//*********************************************************************
 
 	// *********************CASO MESH **********************************
 	scene world = sp.get_mesh_scene(grid_model, "../models/cat.obj", "../models/texturecat.jpg");
+	// 
 	// **********************************************************
 
-	instance* grid_ptr = new instance(grid_model, new material());
-	grid_ptr->blockInstanceMaterialUse();
-	if (use_grid) {
+	//scene world = sp.get_test(grid_model);
+
+
+	if (use_grid && !grid_model->isEmpty()) {
+		instance* grid_ptr = new instance(grid_model, new material());
+		//grid_ptr->blockInstanceMaterialUse();
 		world.addObject(grid_ptr);
 		grid_model->setMultiplier(2.0);
 		grid_model->computeCells();
