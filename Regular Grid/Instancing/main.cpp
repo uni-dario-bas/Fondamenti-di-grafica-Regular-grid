@@ -27,7 +27,7 @@
 
 int const nx = 800;		//x
 int const ny = 400;		//y
-int const ns = 1;		//number of samples
+int const ns = 16;		//number of samples
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
 	//sphere_ptr->translate(2.0, 1, 0);
 	//grid_model->addObject(sphere_ptr);
 
-	bool use_grid = false;
+	bool use_grid = true;
 	grid* grid_model = new grid();
 	scene_provider sp(ns, use_grid, nx, ny);
 	// *********************** TEST FINALE GRID SFERE ***********************
@@ -114,7 +114,10 @@ int main(int argc, char* argv[])
 	//*********************************************************************
 
 	// *********************CASO MESH **********************************
-	scene world = sp.get_mesh_scene(grid_model, "../models/cat.obj", "../models/texturecat.jpg");
+	//scene world = sp.get_mesh_scene(grid_model, "../models/cat.obj", "../models/texturecat.jpg");
+	scene world = sp.get_dennis(grid_model, "../models/dennis.obj", "../models/dennis.jpg");
+	//scene world = sp.get_dennis(grid_model, "../models/fabienne.obj", "../models/fabienne.jpg");
+	//scene world = sp.get_mesh_scene(grid_model, "../models/BB-8.obj", "../models/BB-82.jpg");
 	// 
 	// **********************************************************
 
@@ -123,7 +126,7 @@ int main(int argc, char* argv[])
 
 	if (use_grid && !grid_model->isEmpty()) {
 		instance* grid_ptr = new instance(grid_model, new material());
-		//grid_ptr->blockInstanceMaterialUse();
+		grid_ptr->blockInstanceMaterialUse();
 		world.addObject(grid_ptr);
 		grid_model->setMultiplier(2.0);
 		grid_model->computeCells();

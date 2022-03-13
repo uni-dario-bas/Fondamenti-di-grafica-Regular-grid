@@ -42,6 +42,31 @@ public:
 		return world;
 	}
 
+	scene get_dennis(grid* grid_model, char* mesh_path, char* texture_path) {
+		scene world;
+		add_light(world);
+		add_camera(world);
+		mesh* mesh_ptr = new mesh(mesh_path, "./");
+		texture* texture_ptr = new image_texture(texture_path);
+		material* mesh_material = new material();
+		mesh_material->texture = texture_ptr;
+		instance* mesh_instance = new instance(mesh_ptr, mesh_material);
+		mesh_instance->scale(0.015, 0.015, 0.015);
+		mesh_instance->rotate_y(90);
+		mesh_instance->translate(0, -1.5, 0);
+		if (use_grid) {
+			vector<instance*> triangles = create_triangles(mesh_ptr, mesh_instance->getCurrentMatrix(),
+				mesh_instance->getInverseMatrix(), texture_ptr);
+			for (instance* t : triangles) {
+				grid_model->addObject(t);
+			}
+		}
+		else {
+			world.addObject(mesh_instance);
+		}
+		return world;
+	}
+
 	scene get_sphere_scene(grid* grid_model, float num_spheres, float side) {
 		scene world;
 		add_light(world);

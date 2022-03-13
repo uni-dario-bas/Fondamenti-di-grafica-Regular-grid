@@ -130,6 +130,8 @@ bool mesh::load_mesh(const char* filename, const char* basepath = NULL, bool tri
 		}
 	}
 
+	cout << "******* Loaded a mesh with " << num_faces << "triangles ******" << endl;
+
 	return true;
 }
 
