@@ -15,7 +15,7 @@ public:
 		ny = ny_scene;
 	}
 
-	scene get_mesh_scene(grid* grid_model, char* mesh_path, char* texture_path) {
+	scene get_cat(grid* grid_model, char* mesh_path, char* texture_path) {
 		scene world;
 		add_light(world);
 		add_camera(world);
@@ -42,7 +42,7 @@ public:
 		return world;
 	}
 
-	scene get_dennis(grid* grid_model, char* mesh_path, char* texture_path) {
+	scene get_person(grid* grid_model, char* mesh_path, char* texture_path, int y_rotation) {
 		scene world;
 		add_light(world);
 		add_camera(world);
@@ -52,7 +52,7 @@ public:
 		mesh_material->texture = texture_ptr;
 		instance* mesh_instance = new instance(mesh_ptr, mesh_material);
 		mesh_instance->scale(0.015, 0.015, 0.015);
-		mesh_instance->rotate_y(90);
+		mesh_instance->rotate_y(y_rotation);
 		mesh_instance->translate(0, -1.5, 0);
 		if (use_grid) {
 			vector<instance*> triangles = create_triangles(mesh_ptr, mesh_instance->getCurrentMatrix(),
@@ -70,6 +70,30 @@ public:
 	scene get_sphere_scene(grid* grid_model, float num_spheres, float side) {
 		scene world;
 		add_light(world);
+
+		point3D lookfrom(0.0, 0.0, -20.0);
+		point3D lookat(0, 0, 0);
+		vector3D up(0, 1, 0);
+		world.setCamera(lookfrom, lookat, up, 20, nx, ny, camera_ns);
+
+		object* sphere_model = new sphere();
+		instance* sphere_ptr = new instance(sphere_model, new material());
+		float sphere_volume = 2.0 / num_spheres;
+		float sphere_radius = pow(((3.0 / 4) * sphere_volume) / 3.14, 1.0 / 3);
+		for (int k = 0; k < num_spheres; k++) {
+			sphere_ptr = new instance(sphere_model, new material());
+			sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
+			sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
+			use_grid ? grid_model->addObject(sphere_ptr) : world.addObject(sphere_ptr);
+		}
+		return world;
+	}
+
+	scene get_cut_sphere_scene(grid* grid_model, bool always_compute_bb) {
+		int num_spheres = 100;
+		int side = 3;
+		scene world;
+		add_light(world);
 		add_camera(world);
 		object* sphere_model = new sphere();
 		instance* sphere_ptr = new instance(sphere_model, new material());
@@ -81,33 +105,12 @@ public:
 			sphere_ptr->scale(sphere_radius, sphere_radius, sphere_radius);
 			sphere_ptr->translate(randMToN(-side, side), randMToN(-side, side), randMToN(-side, side));
 			sphere_ptr->scale(0.4, 1.2, 0.4);
-			sphere_ptr->alwaysComputeBB();
+			if (always_compute_bb) {
+				sphere_ptr->alwaysComputeBB();
+			}
 			sphere_ptr->rotate_z(45);
 			use_grid ? grid_model->addObject(sphere_ptr) : world.addObject(sphere_ptr);
 		}
-		return world;
-	}
-
-	scene get_test(grid* grid_model) {
-		scene world;
-
-		point3D light_position(0.0f, 7.0f, 0.0f);
-		point_light* light = new point_light(light_position, lightgray, lightgray, lightgray);
-		world.addLight(light);
-
-		point3D lookfrom(0.0, 6.0, -5.0);
-		point3D lookat(0, 0, 0);
-		vector3D up(0, 1, 0);
-		world.setCamera(lookfrom, lookat, up, 20, nx, ny, camera_ns);
-
-		//object* sphere_model = new sphere();
-		//instance* sphere_ptr = new instance(sphere_model, new material());
-		//sphere_ptr->translate(0, 2, 0);
-		//use_grid ? grid_model->addObject(sphere_ptr) : world.addObject(sphere_ptr);
-		//sphere_ptr = new instance(sphere_model, new material());
-		//sphere_ptr->scale(1000.0, 1000.0, 1000.0);
-		//sphere_ptr->translate(0, -1000, 0);
-		//world.addObject(sphere_ptr);
 		return world;
 	}
 

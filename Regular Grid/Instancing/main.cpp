@@ -27,14 +27,12 @@
 
 int const nx = 800;		//x
 int const ny = 400;		//y
-int const ns = 16;		//number of samples
+int const ns = 8;		//number of samples
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
 using namespace std;
 
-// Q: Mostrare una scena a partire dall'interno della griglia
-// Q: Organizzare stampe di logging
 // Q: Nei benchmark considerare diversi valori di m 
 
 int init() {
@@ -91,37 +89,29 @@ int main(int argc, char* argv[])
 	}
 	srand(6);
 
-	//TEST NUMERO CELLE
-	//sphere_ptr->scale(1000.0, 1000.0, 1000.0);
-	//sphere_ptr->translate(0, -1000, 0);
-	//// Aggiunta sfera al word e non alla grid poichè altrimenti avrebbe occupato tutta la griglia
-	//world.addObject(sphere_ptr);
-
-	//sphere_ptr = new instance(sphere_model, new material());
-	//sphere_ptr->translate(-2.0, 1, 0);
-	//grid_model->addObject(sphere_ptr);
-
-	//sphere_ptr = new instance(sphere_model, new material());
-	////sphere_ptr->getMaterial()->reflective = 1.0;
-	//sphere_ptr->translate(2.0, 1, 0);
-	//grid_model->addObject(sphere_ptr);
-
 	bool use_grid = true;
 	grid* grid_model = new grid();
 	scene_provider sp(ns, use_grid, nx, ny);
-	// *********************** TEST FINALE GRID SFERE ***********************
-	 //scene world = sp.get_sphere_scene(grid_model, 100, 3);
-	//*********************************************************************
 
-	// *********************CASO MESH **********************************
-	//scene world = sp.get_mesh_scene(grid_model, "../models/cat.obj", "../models/texturecat.jpg");
-	scene world = sp.get_dennis(grid_model, "../models/dennis.obj", "../models/dennis.jpg");
-	//scene world = sp.get_dennis(grid_model, "../models/fabienne.obj", "../models/fabienne.jpg");
-	//scene world = sp.get_mesh_scene(grid_model, "../models/BB-8.obj", "../models/BB-82.jpg");
-	// 
+
+	// *********************** GRID SFERE ***********************
+	// num_spheres = 1000000 side = 30 per costruire la griglia intorno alla camera
+	int num_spheres = 100000;
+	int side = 3;
+	scene world = sp.get_sphere_scene(grid_model, num_spheres, side);
+	//***********************************************************
+
+	// *********************** GRID MESH  ***********************
+	//scene world = sp.get_cat(grid_model, "../models/cat.obj", "../models/texturecat.jpg");
+	//scene world = sp.get_person(grid_model, "../models/dennis.obj", "../models/dennis.jpg", 90);
+	//scene world = sp.get_person(grid_model, "../models/fabienne.obj", "../models/fabienne.jpg", 180);
 	// **********************************************************
 
-	//scene world = sp.get_test(grid_model);
+	// *********************** GRID SFERE ***********************
+	//bool always_compute_bb = true;
+	//scene world = sp.get_cut_sphere_scene(grid_model, always_compute_bb);
+	//***********************************************************
+
 
 
 	if (use_grid && !grid_model->isEmpty()) {
@@ -131,22 +121,20 @@ int main(int argc, char* argv[])
 		grid_model->setMultiplier(2.0);
 		grid_model->computeCells();
 
-		cout << "***** CELLS STATISTICS *****" << endl;
-		cout << "Xmin: " << grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
-		cout << "Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
-		cout << "Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
-		cout << "CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
-		cout << "****************************" << endl;
+		cout << " ******** STATISTICHE GRIGLIA ********" << endl;
+		cout << " Xmin: " << grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
+		cout << " Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
+		cout << " Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
+		cout << " CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
+		cout << " *************************************" << endl;
 	}
-	
-	time_t start, end;
-	time(&start);
+
+	float start = clock();
 
 	world.parallel_render();
 
-	time(&end);
-	double dif = difftime(end, start);
-	cout << "Rendering time: " << dif << " seconds." << endl;
+	float dif = (clock() - start) / 1000;
+	cout << "\nTempo di Rendering: " << dif << " seconds." << endl;
 
 	SDL_Event event;
 	bool quit = false;

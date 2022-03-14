@@ -135,6 +135,7 @@ SDL_Surface* loadTexture(const char* image_path, int& imageWidth, int& imageHeig
 
 			Uint32 value = getpixel(image, x, y);
 
+
 			float red = float((value >> 16) & 0xff) / 255.0f;
 			float green = float((value >> 8) & 0xff) / 255.0f;
 			float blue = float(value & 0xff) / 255.0f;

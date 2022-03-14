@@ -48,7 +48,7 @@ void grid::computeCells() {
 	nz = (m * wz / s) + 1;
 
 	int n_cells = nx * ny * nz;
-	cout << "* Grid objects size: " << objects.size() << " Grid n_cells: " << n_cells << endl;
+	cout << "\n **** Numero oggetti griglia: " << objects.size() << " Numero celle griglia: " << n_cells  << " ****" << endl;
 
 	for (int j = 0; j < n_cells; j++) {
 		cells.push_back(new object_set());
@@ -85,9 +85,9 @@ void grid::computeCells() {
 	}
 
 	grid_bb = aabb(p0, p1);
-	cout << "********** STATISTICHE CELLE ************" << endl;
-	cout << "Celle non vuote: " << count << " Celle vuote: " << cells.size() - count << endl;
-	cout << "*****************************************" << endl << endl;
+	cout << "\n ********** STATISTICHE CELLE ****************" << endl;
+	cout << " Celle non vuote: " << count << " Celle vuote: " << cells.size() - count << endl;
+	cout << " ********************************************* " << endl << endl;
 }
 
 void grid::populateCells(int obj_index, float ixmin, float iymin, float izmin, float ixmax, float iymax, float izmax) {
