@@ -25,15 +25,18 @@
 #include "scene_provider.h"
 
 
-int const nx = 800;		//x
-int const ny = 400;		//y
-int const ns = 8;		//number of samples
+int const nx = 800;		
+int const ny = 400;		
+int const ns = 8;	
+
+//int const nx = 200;
+//int const ny = 100;
+//int const ns = 1;
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
 using namespace std;
 
-// Q: Nei benchmark considerare diversi valori di m 
 
 int init() {
 	/* // Initialize SDL2. */
@@ -115,6 +118,8 @@ int main(int argc, char* argv[])
 
 
 	if (use_grid && !grid_model->isEmpty()) {
+		float time_grid = clock();
+
 		instance* grid_ptr = new instance(grid_model, new material());
 		grid_ptr->blockInstanceMaterialUse();
 		world.addObject(grid_ptr);
@@ -127,6 +132,8 @@ int main(int argc, char* argv[])
 		cout << " Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
 		cout << " CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
 		cout << " *************************************" << endl;
+
+		cout << "\nTempo di Inizializzazione griglia: " << (clock() - time_grid) / 1000 << " seconds." << endl;
 	}
 
 	float start = clock();

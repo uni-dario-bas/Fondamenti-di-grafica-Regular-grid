@@ -1,0 +1,70 @@
+Scena 800x400 ns = 8
+
+t_i = tempo di inizializzazione della struttura
+t_r = tempo di rendering
+t_tot = tempo totale di rendering (t_i + t_r)
+
+############################################## M ############################################## 
+
+# 1.000 Sfere
+  - m = 1: 1.210 celle t_i = 0.004s, t_r = 1.486s, t_tot = 1.49s
+  - m = 2: 8.820 celle t_i = 0.008s, t_r = 1.201s, t_tot = 1.209s
+  - m = 3: 28.830 celle t_i = 0.017s, t_r = 1.225s, t_tot = 1.242s
+  - m = 4: 67.240 celle t_i = 0.036s, t_r = 1.363s, t_tot = 1.399s
+
+# 10.000 Sfere
+  - m = 1: 10.648 celle t_i = 0.016s, t_r = 2.962s, t_tot = 2.978s
+  - m = 2: 85.184 celle t_i = 0.047s, t_r = 2.008s, t_tot = 2.055s
+  - m = 3: 274.625 celle t_i = 0.048s, t_r = 2.224s, t_tot = 2.272s
+  - m = 4: 658.503 celle t_i = 0.103s, t_r = 2.539s, t_tot = 2.642s
+
+# 100.000 Sfere
+  - m = 1: 103.823 celle t_i = 0.118s, t_r = 5.515s, t_tot = 5.633s
+  - m = 2: 804.357 celle t_i = 0.262s, t_r = 3.967s, t_tot = 4.229s
+  - m = 3: 2.744.000 celle t_i = 0.655s, t_r = 4.465s, t_tot = 5.12s
+  - m = 4: 6.434.856 celle t_i = 1.067s, t_r = 5.32s, t_tot = 6.387s
+
++++++ m = 2 risulta essere la scelta ottimale +++++
+
+############################################ SFERE ############################################ 
+
+# 100 Sfere
+  - NO GRID: t_r = 2.8s, t_tot = 2.8s
+  - GRID: t_i = 0.004s, t_r = 0.72s, t_tot = 0.724s
+
+# 1.000 Sfere
+  - NO GRID: t_r = 29.4s, t_tot = 29.4s
+  - GRID: t_i = 0.004s, t_r = 1.15s, t_tot = 1.154s
+
+[N.B]Per NO GRID adesso consideriamo ns = 1 con una finestra di 400x200: Il risultato in secondi dovrà essere quindi moltiplicato x8 (ns) e poi x4(dimensioni finestra). Fattore x32 totale.
+
+# 10.000 Sfere
+  - NO GRID: t_r(ridotto) = 10.34s, t_r = 10.34s x 32 = 330.88s
+  - GRID: t_i = 0.03s, t_r = 2.04s, t_tot = 2.07s
+
+[N.B]Per NO GRID adesso consideriamo ns = 1 con una finestra di 200x100: Il risultato in secondi dovrà essere quindi moltiplicato x8 (ns) e poi x16(dimensioni finestra). Fattore x128 totale.
+
+# 100.000 Sfere
+  - NO GRID: t_r(ridotto) = 47.7s, t_r = 47.7s x 128 = 6105s = 102 minuti
+  - GRID: t_i = 0.28s, t_r = 4.08s, t_tot = 4.36s
+
+# 1.000.000 Sfere
+  - NO GRID: TROPPO
+  - GRID: t_i = 2.65s, t_r = 9s, t_tot = 11.65s
+
+
+############################################ MESH ############################################ 
+
+[N.B]Per NO GRID consideriamo ns = 1 con una finestra di 200x100: Il risultato in secondi dovrà essere quindi moltiplicato x8 (ns) e poi x16(dimensioni finestra). Fattore x128 totale.
+
+# Gatto con 70.500 triangoli
+  - NO GRID: t_r(ridotto) = 3.28s, t_r = 3.28s x 128 = 420s = 7 minuti
+  - GRID: t_i = 0.16s, t_r = 2.87s, t_tot = 3.03s
+
+# Persona con 100.000 triangoli
+  - NO GRID: t_r(ridotto) = 3.74s, t_r = 3.74s x 128 = 478s = 8 minuti
+  - GRID: t_i = 0.28s, t_r = 2.26s, t_tot = 2.54s
+
+# Persone con 200.000 triangoli
+  - NO GRID: t_r(ridotto) = 8.92s, t_r = 8.92s x 128 = 1142s = 19 minuti
+  - GRID: t_i = 0.52s, t_r = 2.73s, t_tot = 3.25s
