@@ -28,6 +28,7 @@
 int const nx = 800;		
 int const ny = 400;		
 int const ns = 8;
+float const m = 2;
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
@@ -127,7 +128,7 @@ int main(int argc, char* argv[])
 		instance* grid_ptr = new instance(grid_model, new material());
 		grid_ptr->blockInstanceMaterialUse();
 		world.addObject(grid_ptr);
-		grid_model->setMultiplier(2.0);
+		grid_model->setMultiplier(m);
 		grid_model->computeCells();
 
 		print_grid_stats(grid_model, time_grid);
