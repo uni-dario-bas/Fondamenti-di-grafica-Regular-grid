@@ -27,11 +27,7 @@
 
 int const nx = 800;		
 int const ny = 400;		
-int const ns = 8;	
-
-//int const nx = 200;
-//int const ny = 100;
-//int const ns = 1;
+int const ns = 8;
 
 const unsigned int MAX_RAY_DEPTH = 5;
 
@@ -82,6 +78,16 @@ void close() {
 	SDL_Quit();
 }
 
+void print_grid_stats(grid* grid_model, float time_grid) {
+	cout << " ******** STATISTICHE GRIGLIA ********" << endl;
+	cout << " Xmin: " << grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
+	cout << " Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
+	cout << " Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
+	cout << " CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
+	cout << " *************************************" << endl;
+	cout << "\nTempo di Inizializzazione griglia: " << (clock() - time_grid) / 1000 << " seconds." << endl;
+}
+
 int main(int argc, char* argv[])
 {
 
@@ -115,8 +121,6 @@ int main(int argc, char* argv[])
 	//scene world = sp.get_cut_sphere_scene(grid_model, always_compute_bb);
 	//***********************************************************
 
-
-
 	if (use_grid && !grid_model->isEmpty()) {
 		float time_grid = clock();
 
@@ -126,14 +130,7 @@ int main(int argc, char* argv[])
 		grid_model->setMultiplier(2.0);
 		grid_model->computeCells();
 
-		cout << " ******** STATISTICHE GRIGLIA ********" << endl;
-		cout << " Xmin: " << grid_model->min_coordinates().x << " Xmax: " << grid_model->max_coordinates().x << endl;
-		cout << " Ymin: " << grid_model->min_coordinates().y << " Ymax: " << grid_model->max_coordinates().y << endl;
-		cout << " Zmin: " << grid_model->min_coordinates().z << " Zmax: " << grid_model->max_coordinates().z << endl;
-		cout << " CelleX: " << grid_model->nx << " CelleY: " << grid_model->ny << " CelleZ: " << grid_model->nz << endl;
-		cout << " *************************************" << endl;
-
-		cout << "\nTempo di Inizializzazione griglia: " << (clock() - time_grid) / 1000 << " seconds." << endl;
+		print_grid_stats(grid_model, time_grid);
 	}
 
 	float start = clock();
