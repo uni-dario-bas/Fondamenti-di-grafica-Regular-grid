@@ -44,32 +44,43 @@ m | n. celle | t<sub>i</sub> | t<sub>r</sub> | t<sub>tot</sub>
 Come evidenziato dai dati riportati, aumentando il valore del moltiplicatore, aumenta il numero di celle e di conseguenza anche il tempo per la costruzione della griglia; contrariamente, in generale, aumentare il numero di celle riduce il tempo di rendering, come prevedibile.
 Il compromesso ottimale è stato osservato per m = 2. 
 
-############################################ SFERE ############################################ 
+## Risultati a confronto
 
-# 100 Sfere
-  - NO GRID: t_r = 2.8s, t_tot = 2.8s
-  - GRID: t_i = 0.004s, t_r = 0.72s, t_tot = 0.724s
+### 100 Sfere
+Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | --
+NO | | 2.8s | 2.8s
+SI | 0.004s | 0.72s | 0.724s
 
-# 1.000 Sfere
-  - NO GRID: t_r = 29.4s, t_tot = 29.4s
-  - GRID: t_i = 0.004s, t_r = 1.15s, t_tot = 1.154s
+### 1000 Sfere
+Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | --
+NO | | 29.4s | 29.4s
+SI | 0.004s | 1.15s | 0.154s
 
-[N.B]Per NO GRID adesso consideriamo ns = 1 con una finestra di 400x200: Il risultato in secondi dovrà essere quindi moltiplicato x8 (ns) e poi x4(dimensioni finestra). Fattore x32 totale.
+Da questo punto in poi, i risultati per i test effettuati senza griglia fanno riferimento ad esecuzioni con ns = 1, utilizzando una finestra 400x200, successivamente moltiplicati per 8 (ns) e per 4 (dimensione finestra).
+[TODO: Probabilmente i test vanno uniformati]
 
-# 10.000 Sfere
-  - NO GRID: t_r(ridotto) = 10.34s, t_r = 10.34s x 32 = 330.88s
-  - GRID: t_i = 0.03s, t_r = 2.04s, t_tot = 2.07s
+### 10000 Sfere
+Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | --
+NO | | ~330.88s | ~330.88s
+SI | 0.03s | 2.04s | 2.07s
 
-[N.B]Per NO GRID adesso consideriamo ns = 1 con una finestra di 200x100: Il risultato in secondi dovrà essere quindi moltiplicato x8 (ns) e poi x16(dimensioni finestra). Fattore x128 totale.
+Da questo punto in poi, i risultati per i test effettuati senza griglia fanno riferimento ad esecuzioni con ns = 1, utilizzando una finestra 200x100, successivamente moltiplicati per 8 (ns) e per 16 (dimensione finestra).
+[TODO: Probabilmente i test vanno uniformati]
 
-# 100.000 Sfere
-  - NO GRID: t_r(ridotto) = 47.7s, t_r = 47.7s x 128 = 6105s = 102 minuti
-  - GRID: t_i = 0.28s, t_r = 4.08s, t_tot = 4.36s
+### 100000 Sfere
+Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | --
+NO | | ~6105s | ~6105s
+SI | 0.28s | 4.08s | 4.36s
 
-# 1.000.000 Sfere
-  - NO GRID: TROPPO
-  - GRID: t_i = 2.65s, t_r = 9s, t_tot = 11.65s
-
+### 100000 Sfere
+Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | --
+NO | | :skull: | :skull:
+SI | 2.65s | 9s | 11.65s
 
 ############################################ MESH ############################################ 
 
