@@ -116,11 +116,13 @@ bool instance::hit_shadow(const ray& r, float t_min, float t_max) const {
 
 bool instance::bounding_box(aabb& box) const {
 	object_ptr->bounding_box(box);
+
 	if (!shouldComputeBB) {
 		box.pmin = current_matrix * box.pmin;
 		box.pmax = current_matrix * box.pmax;
 		return true;
 	}
+
 	point3D v[8];
 
 	v[0].x = box.aabb_min().x; v[0].y = box.aabb_min().y; v[0].z = box.aabb_min().z;

@@ -58,7 +58,6 @@ inline void swapNumber(float& a, float& b) {
 	float x1 = -FLT_MAX;
 	float y1 = -FLT_MAX;
 	float z1 = -FLT_MAX;
-
 	for (point3D p : points) {
 		if (p.x > x1)
 			x1 = p.x;

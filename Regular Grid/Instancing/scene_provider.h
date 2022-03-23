@@ -30,7 +30,7 @@ public:
 		mesh_instance->scale(0.05, 0.05, 0.05);
 		mesh_instance->translate(0, -1, 0);
 		if (use_grid) {
-			vector<instance*> triangles = create_triangles(mesh_ptr, mesh_instance->getCurrentMatrix(),
+			vector<instance*> triangles = Tassellator::create_triangles(mesh_ptr, mesh_instance->getCurrentMatrix(),
 				mesh_instance->getInverseMatrix(), texture_ptr);
 			for (instance* t : triangles) {
 				grid_model->addObject(t);
@@ -55,7 +55,7 @@ public:
 		mesh_instance->rotate_y(y_rotation);
 		mesh_instance->translate(0, -1.5, 0);
 		if (use_grid) {
-			vector<instance*> triangles = create_triangles(mesh_ptr, mesh_instance->getCurrentMatrix(),
+			vector<instance*> triangles = Tassellator::create_triangles(mesh_ptr, mesh_instance->getCurrentMatrix(),
 				mesh_instance->getInverseMatrix(), texture_ptr);
 			for (instance* t : triangles) {
 				grid_model->addObject(t);
