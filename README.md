@@ -93,7 +93,7 @@ Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
 NO | | ~6105s | ~6105s
 SI | 0.28s | 4.08s | 4.36s
 
-### 100000 Sfere
+### 1000000 Sfere
 Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
 -- | -- | -- | --
 NO | | :skull: | :skull:
