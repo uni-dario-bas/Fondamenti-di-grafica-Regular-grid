@@ -78,7 +78,7 @@ Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
 NO | | :skull: | :skull:
 SI | 2.65s | 9s | 11.65s
 
-#Risultati ottenuti con le Mesh
+# Risultati ottenuti con le Mesh
 
 ## Gatto con 70.500 triangoli
 
