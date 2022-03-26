@@ -13,6 +13,10 @@ _Dario Satriani  - 61196_
 
 ---
 
+# Riferimenti modelli
+I modelli per far funzionare il progetto possono essere scaricati al seguente link:
+https://drive.google.com/drive/folders/1zRK226c36zDrGCiMxPPCbSRMtkT7TkK_?usp=sharing
+
 # Benchmark
 
 Per condurre il benchmark test della Regular Grid, è stata utilizzata una finestra con dimensione 800x400 e, per ogni pixel sono stati utilizzati 8 raggi (ns = 8).
