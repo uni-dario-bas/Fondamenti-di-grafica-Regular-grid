@@ -1,3 +1,4 @@
+
 # Regular Grid 🗂️
 ___
 
@@ -68,63 +69,63 @@ Il compromesso ottimale è stato osservato per m = 2.
 ## Risultati a confronto
 
 ### 100 Sfere
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | 2.8s | 2.8s
-SI | 0.004s | 0.72s | 0.724s
+Griglia | n. celle | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | 2.8s | 2.8s
+SI | 1000 | 0.004s | 0.72s | 0.724s
 
 ### 1000 Sfere
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | 29.4s | 29.4s
-SI | 0.004s | 1.15s | 1.154s
+Griglia | n. celle | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | 29.4s | 29.4s
+SI | 8820 | 0.004s | 1.15s | 1.154s
 
 
 ### 10000 Sfere
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | ~330.88s | ~330.88s
-SI | 0.03s | 2.04s | 2.07s
+Griglia | n. celle | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | ~330.88s | ~330.88s
+SI | 85184 | 0.03s | 2.04s | 2.07s
 
 
 ### 100000 Sfere
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | ~6105s | ~6105s
-SI | 0.28s | 4.08s | 4.36s
+Griglia | n. celle | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | ~6105s | ~6105s
+SI | 804357 | 0.28s | 4.08s | 4.36s
 
 ### 1000000 Sfere
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | :skull: | :skull:
-SI | 2.65s | 9s | 11.65s
+Griglia | n. celle | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | :skull: | :skull:
+SI | 8120601 | 2.65s | 9s | 11.65s
 
 # Risultati ottenuti con le Mesh
 
-## Gatto con 70.500 triangoli
+## Gatto con 70500 triangoli
 
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | ~7min | ~7min
-SI | 0.16s | 2.87s | 3.03s
+Griglia | n. celle | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | ~7min | ~7min
+SI | 580800 | 0.16s | 2.87s | 3.03s
 
 ![cat](img/cat.bmp)
 
-## Persona con 100.000 triangoli
+## Persona con 100000 triangoli
 
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | ~8min | ~8min
-SI | 0.28s | 2.26s | 2.54s
+Griglia | n.celle | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | ~8min | ~8min
+SI | 804752 | 0.28s | 2.26s | 2.54s
 
 ![dennis](img/dennis.bmp)
 
 
-## Persone con 200.000 triangoli
+## Persone con 200000 triangoli
 
-Griglia | t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
--- | -- | -- | --
-NO | | ~19min | ~19min
-SI | 0.52s | 2.73s | 3.25s
+Griglia |  n.celle| t<sub>i</sub> | t<sub>r</sub> |  t<sub>tot</sub>
+-- | -- | -- | -- | --
+NO | ❌ | ❌ | ~19min | ~19min
+SI | 1619085 | 0.52s | 2.73s | 3.25s
 
 ![fabienne](img/fabienne.bmp)
